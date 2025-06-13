@@ -1,0 +1,108 @@
+{
+  "name": "memejob-sdk-js",
+  "version": "0.0.1",
+  "description": "memejob.fun - SDK",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "scripts": {
+    "dev": "tsup --config tsup.config.ts --watch",
+    "build": "pnpm clean:build && tsup --config tsup.config.ts",
+    "clean:build": "rimraf dist",
+    "clean": "rimraf ./dist ./node_modules",
+    "check:types": "tsc --noEmit",
+    "postinstall": "node ./scripts/generate-api-schema.mjs",
+    "test": "vitest"
+  },
+  "keywords": [
+    "sdk",
+    "memejob",
+    "memejob.fun",
+    "memejob sdk",
+    "memecoins",
+    "launchpad",
+    "development kit"
+  ],
+  "author": "Buidlerlabs",
+  "license": "MIT",
+  "packageManager": "pnpm@10.4.1",
+  "files": [
+    "/dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "node": "./dist/index.js"
+    },
+    "./abi": {
+      "import": "./dist/abi/index.mjs",
+      "node": "./dist/abi/index.js"
+    },
+    "./adapters": {
+      "import": "./dist/adapters/index.mjs",
+      "node": "./dist/adapters/index.js"
+    },
+    "./chains": {
+      "import": "./dist/chains/index.mjs",
+      "node": "./dist/chains/index.js"
+    },
+    "./ipfs": {
+      "import": "./dist/ipfs/index.mjs",
+      "node": "./dist/ipfs/index.js"
+    },
+    "./mirror": {
+      "import": "./dist/mirror/index.mjs",
+      "node": "./dist/mirror/index.js"
+    },
+    "./utils": {
+      "import": "./dist/utils/index.mjs",
+      "node": "./dist/utils/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "abi": [
+        "dist/abi/index.d.ts"
+      ],
+      "adapters": [
+        "dist/adapters/index.d.ts"
+      ],
+      "chains": [
+        "dist/chains/index.d.ts"
+      ],
+      "ipfs": [
+        "dist/ipfs/index.d.ts"
+      ],
+      "mirror": [
+        "dist/mirror/index.d.ts"
+      ],
+      "utils": [
+        "dist/utils/index.d.ts"
+      ],
+      "*": [
+        "dist/index.d.ts"
+      ]
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.1",
+    "chalk": "^5.4.1",
+    "dotenv": "^16.5.0",
+    "meow": "^13.2.0",
+    "msw": "^2.10.2",
+    "openapi-typescript": "7.5.2",
+    "openapi-typescript-fetch": "^2.1.0",
+    "openapi-typescript-helpers": "^0.0.15",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.3"
+  },
+  "dependencies": {
+    "@hashgraph/sdk": "^2.66.0",
+    "axios": "^1.9.0",
+    "multiformats": "^13.3.7",
+    "openapi-fetch": "^0.13.4",
+    "openapi-typescript-helpers": "^0.0.15",
+    "rimraf": "^6.0.1",
+    "viem": "^2.31.0"
+  }
+}

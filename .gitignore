@@ -1,0 +1,15 @@
+.idea/
+.DS_Store
+
+.env
+!.env.*
+
+dist/
+test-examples/
+/node_modules/
+/**/*/node_modules/
+*.tgz
+untracked/
+
+docs/.vitepress/dist
+docs/.vitepress/cache

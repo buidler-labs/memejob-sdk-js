@@ -3,7 +3,7 @@ import type { Chain } from "viem";
 import { MJToken, MJ_TOKEN_CONSTRUCTOR_GUARD } from "./MJToken";
 import { MJAdapter } from "./adapters/MJAdapter";
 import type { CreateAdapterFunc } from "./adapters/create";
-import { ZERO_ADDRESS } from "./constants";
+import { ZERO_ADDRESS } from "./config";
 import { type MirrorClientConfig, createMirrorConfig } from "./mirror";
 import type {
   CreateFunctionParameters,
@@ -35,7 +35,7 @@ export class MJClient<Adapter extends MJAdapter = MJAdapter> {
 
   /**
    * Creates a new `MJClient` instance.
-   * @param adapter - Network adapter for contract interactions (`Native` or `EVM`)
+   * @param createAdapterFunc - Network adapter factory function for contract interactions (`Native` or `EVM`)
    * @param config - Client configuration
    */
   constructor(
@@ -87,8 +87,8 @@ export class MJClient<Adapter extends MJAdapter = MJAdapter> {
   }
 
   /**
-   * Retrieves a MJToken instance if it's found on bonding curve.
-   * @param tokenId - Token id as string or `TokenId`.
+   * Retrieves an MJToken instance if it's found on the bonding curve.
+   * @param tokenId - Token id as a string or `TokenId`.
    * @returns Promise that resolves to an MJToken instance.
    * @throws Error if the specified token is not present on the bonding curve.
    */

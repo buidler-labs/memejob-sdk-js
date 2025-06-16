@@ -27,13 +27,17 @@ type EthereumProvider = { request(...args: any): Promise<any> };
 
 /** Configuration with private key account for signing */
 type WithAccount = {
+  /** Private key account used to sign transactions */
   account: PrivateKeyAccount;
+  /** External Ethereum provider must not be set when using private key account */
   ethereumProvider?: never;
 };
 
 /** Configuration with external Ethereum provider (e.g., `MetaMask`) */
 type WithProvider = {
+  /** No private key account when using external provider */
   account?: never;
+  /** External Ethereum provider supporting EIP-1193 */
   ethereumProvider: EthereumProvider;
 };
 
@@ -51,7 +55,8 @@ export class EvmAdapter extends MJAdapter {
 
   /**
    * Initializes EVM adapter with `chain` configuration and signing method.
-   * @param params - Configuration with `chain` and either `account` or `provider`
+   * @param constructorGuard - Internal symbol to protect constructor usage
+   * @param params - Configuration with `chain`, `contractId`, and signing method (`account` or `ethereumProvider`)
    */
   constructor(
     constructorGuard: symbol,
@@ -87,7 +92,7 @@ export class EvmAdapter extends MJAdapter {
   async create(params: CreateFunctionParameters) {
     const creationFee = await this.getCreationFee();
     const initialBuyAmount = params?.amount ?? 0n;
-    const value = (creationFee + initialBuyAmount) * 10n ** 10n; //converted to wei
+    const value = (creationFee + initialBuyAmount) * 10n ** 10n; // converted to wei
 
     const hash = await this.#walletClient.writeContract({
       address: toEvmAddress(this.contractId),
@@ -114,7 +119,7 @@ export class EvmAdapter extends MJAdapter {
 
   /**
    * Purchases tokens from the bonding curve.
-   * @param params - Buy parameters including token `address`, `amount`, and `referrer`
+   * @param params - Buy parameters including token `memeAddress`, `amount`, and `referrer`
    * @returns Promise resolving to transaction receipt
    */
   async buy(params: BuyFunctionParameters) {
@@ -130,7 +135,7 @@ export class EvmAdapter extends MJAdapter {
       chain: this.chain,
       account: this.#account ?? null,
       args: [params.memeAddress, params.amount, params.referrer],
-      value: amountOut * 10n ** 10n, //converted to wei,
+      value: amountOut * 10n ** 10n, // converted to wei
       gas: 200_000n,
     });
 
@@ -141,7 +146,7 @@ export class EvmAdapter extends MJAdapter {
 
   /**
    * Sells tokens back to the bonding curve.
-   * @param params - Sell parameters including token `address` and `amount`
+   * @param params - Sell parameters including token `memeAddress` and `amount`
    * @returns Promise resolving to transaction receipt
    */
   async sell(params: SellFunctionParameters) {
@@ -162,9 +167,9 @@ export class EvmAdapter extends MJAdapter {
 
   /**
    * Approves token allowances for contract spending.
-   * @param tokens - Array of MJTokens and amounts to approve
+   * @param tokens - Array of tokens and amounts to approve
    * @param spender - Contract address authorized to spend tokens
-   * @returns Promise resolving to array of approval transaction receipt or receipt(s) if multiple tokens provided
+   * @returns Promise resolving to array of approval transaction receipts
    */
   async approveAllowance(
     tokens: { tokenId: TokenId | string; amount: bigint }[],
@@ -195,8 +200,8 @@ export class EvmAdapter extends MJAdapter {
 
   /**
    * Associates one or more tokens with the current account.
-   * @param tokens - Array of MJTokens to associate
-   * @returns Promise resolving to transaction receipt or receipt(s) if multiple tokens provided
+   * @param tokens - Array of tokens to associate
+   * @returns Promise resolving to array of transaction receipts
    */
   async associateTokens(tokens: (TokenId | string)[]) {
     return Promise.all(

@@ -11,6 +11,13 @@ import {
   withRetry,
 } from "../../utils";
 
+/**
+ * Performs a paginated GET request against a mirror node API.
+ * Initializes with provided options and requests subsequent pages until `next` is undefined.
+ * Transforms each page if a transform is provided.
+ * @returns An array of all retrieved (and possibly transformed) pages.
+ * @throws MirrorNodeError if any page fails to fetch.
+ */
 export const getPaginated = async <
   C extends MirrorClient,
   P extends MirrorPath,
@@ -18,10 +25,15 @@ export const getPaginated = async <
   D extends MirrorDataResponse<P, O>,
   R = D[],
 >(parameters: {
+  /** Mirror API client */
   client: C;
+  /** API path to paginate */
   path: P;
+  /** Query options for initial page */
   options?: O;
+  /** Transformation function applied to each page */
   transform?: (page: D) => R;
+  /** Retry configuration for failed requests */
   retryOptions?: WithRetryParameters;
 }): Promise<R[]> => {
   const { client, path, transform, options, retryOptions } = parameters;
@@ -41,6 +53,7 @@ export const getPaginated = async <
     if (!data.links?.next) break;
 
     fetchOptions = {
+      ...fetchOptions,
       params: {
         ...fetchOptions?.params,
         query: parseQueryParams(data.links.next),

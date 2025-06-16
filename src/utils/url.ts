@@ -1,3 +1,8 @@
+/**
+ * Parses the query parameters from a URL string into a key-value record.
+ * @param url - The URL containing query parameters
+ * @returns An object with query parameter keys and their decoded values (numbers parsed when possible)
+ */
 export const parseQueryParams = (url: string): Record<string, unknown> => {
   const queryStart = url.indexOf("?");
   if (queryStart === -1) {

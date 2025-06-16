@@ -54,6 +54,7 @@ export class NativeAdapter extends MJAdapter {
 
   /**
    * Initializes native adapter with Hedera client and operator account.
+   * @param constructorGuard - Symbol to guard construction access
    * @param params - Configuration with chain and operator credentials
    */
   constructor(
@@ -199,8 +200,8 @@ export class NativeAdapter extends MJAdapter {
 
   /**
    * Associates one or more tokens with the current account.
-   * @param tokens - Array of MJTokens to associate
-   * @returns Promise resolving to transaction receipt or receipt(s) if multiple tokens provided
+   * @param tokens - Array of tokens (TokenId or string) to associate
+   * @returns Promise resolving to transaction receipt
    */
   async associateTokens(tokens: (TokenId | string)[]) {
     const tokenAssociateTransaction = new TokenAssociateTransaction()
@@ -213,7 +214,7 @@ export class NativeAdapter extends MJAdapter {
 
   /**
    * Retrieves token balance using Hedera Mirror Node API.
-   * @param token - Token to query balance for
+   * @param token - MJToken to query balance for
    * @returns Promise resolving to token balance as bigint
    */
   async getBalance(token: MJToken): Promise<bigint> {

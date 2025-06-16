@@ -1,6 +1,6 @@
 import { TokenId } from "@hashgraph/sdk";
 import type { MJClient } from "./MJClient";
-import { ZERO_ADDRESS } from "./constants";
+import { ZERO_ADDRESS } from "./config";
 import type {
   BuyConfig,
   BuyFunctionParameters,
@@ -19,8 +19,9 @@ export class MJToken {
   #client: MJClient;
 
   /**
-   * Creates new `MJToken` instance with basic info.
-   * @param parameters - Optional token info parameters (`name`, `symbol`, `memo`)
+   * Creates a new `MJToken` instance with basic info.
+   * @param constructorGuard - Symbol to restrict direct construction
+   * @param TokenConfig - Token config parameters including `client` instance and token id
    */
   public constructor(
     constructorGuard: symbol,
@@ -39,8 +40,7 @@ export class MJToken {
 
   /**
    * Purchases tokens from the bonding curve.
-   * @param token - Target `MJToken` to purchase
-   * @param config - Buy configuration including `amount` and optional `referrer`
+   * @param config - Buy configuration including `amount` and optional `referrer` and `autoAssociate`
    * @returns Promise resolving to transaction receipt
    * @throws Error if `amount` is not specified
    */
@@ -62,8 +62,7 @@ export class MJToken {
 
   /**
    * Sells tokens back to the bonding curve.
-   * @param token - `MJToken` to sell
-   * @param config - Sell configuration including `amount` and `instant` flag (auto approve allowance on demand)
+   * @param config - Sell configuration including `amount` and optional `instant` flag (auto approve allowance on demand)
    * @returns Promise resolving to transaction receipt
    * @throws Error if `amount` is not specified
    */
@@ -84,8 +83,8 @@ export class MJToken {
 
   /**
    * Approves a token allowance to allow the MemeJob contract to spend funds on your behalf.
-   * @param amount - The amount of tokens that can be spent
-   * @returns Promise resolving to approval transaction receipt
+   * @param amount - The amount of tokens that can be spent.
+   * @returns Promise resolving to approval transaction receipt.
    */
   async approveAllowance(amount: bigint) {
     return this.#client.adapter.approveAllowance(
@@ -95,17 +94,16 @@ export class MJToken {
   }
 
   /**
-   * Associate token with the current account.
-   * @returns Promise resolving to associate transaction receipt
+   * Associates the token with the current account.
+   * @returns Promise resolving to associate transaction receipt.
    */
   async associate() {
     return this.#client.adapter.associateTokens([this.#tokenId]);
   }
 
   /**
-   * Retrieves token balance for the current account.
-   * @param token - `MJToken` to query balance for
-   * @returns Promise resolving to token balance as `bigint`
+   * Retrieves the token balance for the current account.
+   * @returns Promise resolving to token balance as a `bigint`.
    */
   async getBalance() {
     return this.#client.adapter.getBalance(this);

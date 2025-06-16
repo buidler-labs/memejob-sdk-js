@@ -1,12 +1,12 @@
 import { TokenId } from "@hashgraph/sdk";
-import { MJClient } from "./MJClient";
-import {
-  type BuyConfig,
-  type BuyFunctionParameters,
-  type SellConfig,
-  type SellFunctionParameters,
-} from "./types";
+import type { MJClient } from "./MJClient";
 import { ZERO_ADDRESS } from "./constants";
+import type {
+  BuyConfig,
+  BuyFunctionParameters,
+  SellConfig,
+  SellFunctionParameters,
+} from "./types";
 
 export const MJ_TOKEN_CONSTRUCTOR_GUARD = Symbol("MJ_TOKEN_CONSTRUCTOR_GUARD");
 

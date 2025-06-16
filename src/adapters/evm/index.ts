@@ -1,1 +1,1 @@
-export * from "./EvmAdapter"
+export * from "./EvmAdapter";

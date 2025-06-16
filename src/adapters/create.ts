@@ -1,5 +1,5 @@
-import { MJClient } from "../MJClient";
-import { MJAdapter, MJAdapterParameters } from "./MJAdapter";
+import type { MJClient } from "../MJClient";
+import type { MJAdapter, MJAdapterParameters } from "./MJAdapter";
 
 export const MJ_ADAPTER_CONSTRUCTOR_GUARD = Symbol(
   "MJ_ADAPTER_CONSTRUCTOR_GUARD"
@@ -12,7 +12,9 @@ export type CreateAdapterFunc<A extends MJAdapter> = (
 
 export function createAdapter<
   A extends MJAdapter,
-  T extends new (...args: any[]) => A
+  T extends new (
+    ...args: any[]
+  ) => A,
 >(
   Adapter: T,
   params: Omit<ConstructorParameters<T>[1], keyof MJAdapterParameters>

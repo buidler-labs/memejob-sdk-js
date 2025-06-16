@@ -1,8 +1,8 @@
-import { afterEach, beforeAll, afterAll, expect, test } from "vitest";
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
+import { afterAll, afterEach, beforeAll, expect, test } from "vitest";
+import hederaTestnet from "../../chains/hedera-testnet";
 import { createMirrorConfig } from "../config";
-import { LedgerId } from "@hashgraph/sdk";
 import { get } from "./get";
 
 const server = setupServer();
@@ -22,7 +22,7 @@ afterAll(() => server.close());
 
 test("Should return an array of transactions", async () => {
   const { client, baseUrl } = createMirrorConfig({
-    ledgerId: LedgerId.TESTNET,
+    chain: hederaTestnet,
   });
 
   const rawData = {
@@ -49,7 +49,7 @@ test("Should return an array of transactions", async () => {
 
 test("Should return a transformed response of transactions", async () => {
   const { client, baseUrl } = createMirrorConfig({
-    ledgerId: LedgerId.TESTNET,
+    chain: hederaTestnet,
   });
 
   const rawData = {
@@ -80,7 +80,7 @@ test("Should return a transformed response of transactions", async () => {
 
 test("Should return not found error", async () => {
   const { client, baseUrl } = createMirrorConfig({
-    ledgerId: LedgerId.TESTNET,
+    chain: hederaTestnet,
   });
 
   const errorData = {

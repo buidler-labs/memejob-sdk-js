@@ -1,8 +1,8 @@
-import createClient, { ClientOptions } from "openapi-fetch";
-import { type MirrorPaths } from "./types";
-import { type Chain } from "viem";
-import hederaTestnet from "../chains/hedera-testnet";
+import createClient, { type ClientOptions } from "openapi-fetch";
+import type { Chain } from "viem";
 import { chainToNetworkName } from "../chains";
+import hederaTestnet from "../chains/hedera-testnet";
+import type { MirrorPaths } from "./types";
 
 export type CreateMirrorConfigParameters = ClientOptions & {
   chain?: Chain;

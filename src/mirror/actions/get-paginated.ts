@@ -1,15 +1,15 @@
 import {
+  type MirrorClient,
+  type MirrorDataResponse,
+  type MirrorGetOptions,
+  MirrorNodeError,
+  type MirrorPath,
+} from "..";
+import {
+  type WithRetryParameters,
   parseQueryParams,
   withRetry,
-  type WithRetryParameters,
 } from "../../utils";
-import {
-  MirrorClient,
-  MirrorDataResponse,
-  MirrorGetOptions,
-  MirrorNodeError,
-  MirrorPath,
-} from "..";
 
 export const getPaginated = async <
   C extends MirrorClient,

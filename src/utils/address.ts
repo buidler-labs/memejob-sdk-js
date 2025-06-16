@@ -1,4 +1,4 @@
-import { AccountId, ContractId, TokenId } from "@hashgraph/sdk";
+import type { AccountId, ContractId, TokenId } from "@hashgraph/sdk";
 import { isAddress } from "viem";
 
 export function toEvmAddress(

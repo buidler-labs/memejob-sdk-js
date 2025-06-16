@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-import openapiTS, { astToString } from "openapi-typescript";
 import { writeFileSync } from "node:fs";
-import meow from "meow";
 import chalk from "chalk";
+import meow from "meow";
+import openapiTS, { astToString } from "openapi-typescript";
 
 const OPEN_API_SCHEMA_URL =
   "https://mainnet-public.mirrornode.hedera.com/api/v1/docs/openapi.yml";
@@ -15,7 +15,7 @@ const cli = meow(
 
 	Options
 	  --schema, -s  OpenAPI schema (default: mainnet-public)
-   --output, -o  Typescript schema output path
+    --output, -o  Typescript schema output path
 `,
   {
     importMeta: import.meta,

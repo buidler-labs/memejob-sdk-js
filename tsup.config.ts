@@ -10,6 +10,7 @@ export default defineConfig({
     "src/mirror/index.ts",
     "src/utils/index.ts",
   ],
+  external: ["@hashgraph/sdk", "viem"],
   format: ["esm", "cjs"],
   dts: true,
   splitting: false,

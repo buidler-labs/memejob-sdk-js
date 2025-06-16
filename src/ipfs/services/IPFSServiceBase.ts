@@ -1,4 +1,4 @@
-import { CID } from "multiformats";
+import type { CID } from "multiformats";
 
 export abstract class IPFSServiceBase {
   abstract init(): Promise<any>;

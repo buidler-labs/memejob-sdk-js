@@ -1,7 +1,11 @@
-import { IPFSServiceBase } from "../IPFSServiceBase";
-import { PinataAddOptions, PinataInitOptions, PinataPinOptions } from "./types";
-import { CID } from "multiformats/cid";
 import axios from "axios";
+import { CID } from "multiformats/cid";
+import { IPFSServiceBase } from "../IPFSServiceBase";
+import type {
+  PinataAddOptions,
+  PinataInitOptions,
+  PinataPinOptions,
+} from "./types";
 
 export type ServiceConfig = {
   apiUrl: string;
@@ -69,7 +73,7 @@ export class PinataService extends IPFSServiceBase {
 
   async get(cid: CID): Promise<string> {
     const response = await axios.get(
-      `${this._config.gatewayUrl}/ipfs/` + cid.toString(),
+      `${this._config.gatewayUrl}/ipfs/${cid.toString()}`,
       {
         headers: {
           ...this._config.headers,
@@ -108,7 +112,7 @@ export class PinataService extends IPFSServiceBase {
 
   async unpin(cid: CID): Promise<string> {
     const response = await axios.delete(
-      `${this._config.apiUrl}/pinning/unpin/` + cid.toString(),
+      `${this._config.apiUrl}/pinning/unpin/${cid.toString()}`,
       {
         headers: {
           ...this._config.headers,

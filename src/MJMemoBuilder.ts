@@ -1,5 +1,5 @@
 import { IpfsClient } from "./ipfs";
-import { IPFSServiceBase } from "./ipfs/services/IPFSServiceBase";
+import type { IPFSServiceBase } from "./ipfs/services/IPFSServiceBase";
 
 /** Complete token metadata structure stored on `IPFS` */
 export type MJTokenMetadata = {
@@ -67,7 +67,7 @@ export class MJMemoBuilder {
     const { description, creator, image, properties } = details;
 
     const ipfsClient = await IpfsClient.use(this.#service);
-    const imagePath = "ipfs://" + (await ipfsClient.add(image));
+    const imagePath = `ipfs://${await ipfsClient.add(image)}`;
     const defaultProperties: Record<string, string> = {
       category: "@memejob-fun/sdk",
     };

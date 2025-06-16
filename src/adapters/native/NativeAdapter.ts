@@ -1,27 +1,27 @@
 import {
   AccountAllowanceApproveTransaction,
-  AccountId,
+  type AccountId,
   Client,
   ContractExecuteTransaction,
   ContractFunctionParameters,
-  ContractId,
+  type ContractId,
   Hbar,
-  PrivateKey,
+  type PrivateKey,
   TokenAssociateTransaction,
   TokenId,
 } from "@hashgraph/sdk";
-import { MJAdapter, MJAdapterParameters } from "../MJAdapter";
-import { withRetry } from "../../utils";
-import { getPaginated } from "../../mirror";
-import {
-  type BuyFunctionParameters,
-  type CreateFunctionParameters,
-  type SellFunctionParameters,
-} from "../../types";
-import { MJToken } from "../../MJToken";
-import { isNativeAddress } from "../../utils/address";
+import type { MJToken } from "../../MJToken";
 import hederaMainnet from "../../chains/hedera-mainnet";
 import hederaTestnet from "../../chains/hedera-testnet";
+import { getPaginated } from "../../mirror";
+import type {
+  BuyFunctionParameters,
+  CreateFunctionParameters,
+  SellFunctionParameters,
+} from "../../types";
+import { withRetry } from "../../utils";
+import { isNativeAddress } from "../../utils/address";
+import { MJAdapter, type MJAdapterParameters } from "../MJAdapter";
 
 /** Configuration parameters for NativeAdapter initialization */
 export type NativeAdapterParameters = MJAdapterParameters &
@@ -184,7 +184,7 @@ export class NativeAdapter extends MJAdapter {
     const allowanceApproveTransaction =
       new AccountAllowanceApproveTransaction();
 
-    for (let { tokenId, amount } of tokens) {
+    for (const { tokenId, amount } of tokens) {
       allowanceApproveTransaction.approveTokenAllowance(
         typeof tokenId === "string" ? TokenId.fromString(tokenId) : tokenId,
         this.#hClient.operatorAccountId!,

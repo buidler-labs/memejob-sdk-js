@@ -1,25 +1,25 @@
-import { ContractId, TokenId } from "@hashgraph/sdk";
-import { TOKEN_CREATION_FEE, TOKEN_DECIMALS } from "../constants";
+import type { ContractId, TokenId } from "@hashgraph/sdk";
+import type { TransactionReceipt as HederaTransactionReceipt } from "@hashgraph/sdk";
 import {
-  type BuyFunctionParameters,
-  type CreateFunctionParameters,
-  type SellFunctionParameters,
-} from "../types";
-import {
+  http,
   type Address,
   type Chain,
-  createPublicClient,
-  getAddress,
-  http,
   type PublicClient,
   type TransactionReceipt as ViemTransactionReceipt,
+  createPublicClient,
+  getAddress,
 } from "viem";
-import { TransactionReceipt as HederaTransactionReceipt } from "@hashgraph/sdk";
+import type { MJClient } from "../MJClient";
+import type { MJToken } from "../MJToken";
 import { hederaExchangeRatePrecompiledABI, memejobABI } from "../abi";
-import { MJClient } from "../MJClient";
+import { TOKEN_CREATION_FEE, TOKEN_DECIMALS } from "../constants";
+import type {
+  BuyFunctionParameters,
+  CreateFunctionParameters,
+  SellFunctionParameters,
+} from "../types";
 import { toEvmAddress } from "../utils/address";
 import { MJ_ADAPTER_CONSTRUCTOR_GUARD } from "./create";
-import { MJToken } from "../MJToken";
 
 /** Base configuration parameters for `MJAdapter` initialization */
 export type MJAdapterParameters = {

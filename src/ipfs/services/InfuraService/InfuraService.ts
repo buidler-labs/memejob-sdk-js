@@ -1,8 +1,8 @@
-import { IPFSServiceBase } from "../IPFSServiceBase";
-import { InfuraAddOptions, InfuraInitOptions } from "./types";
-import { CID } from "multiformats/cid";
 import axios from "axios";
+import { CID } from "multiformats/cid";
 import { toQueryParams } from "../../utils";
+import { IPFSServiceBase } from "../IPFSServiceBase";
+import type { InfuraAddOptions, InfuraInitOptions } from "./types";
 
 export type ServiceConfig = {
   baseUrl: string;
@@ -38,7 +38,7 @@ export class InfuraService extends IPFSServiceBase {
 
   async init() {
     const auth = Buffer.from(
-      this._initOptions.projectKey + ":" + this._initOptions.projectSecret
+      `${this._initOptions.projectKey}:${this._initOptions.projectSecret}`
     ).toString("base64");
 
     this._config = {
@@ -62,7 +62,7 @@ export class InfuraService extends IPFSServiceBase {
     form.append("file", value);
 
     const response = await axios.post(
-      `${this._config.baseUrl}/api/v0/add` + params,
+      `${this._config.baseUrl}/api/v0/add${params}`,
       form,
       {
         headers: {

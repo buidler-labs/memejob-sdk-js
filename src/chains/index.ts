@@ -1,4 +1,4 @@
-import { Chain } from "viem";
+import type { Chain } from "viem";
 import mainnet from "./hedera-mainnet";
 import testnet from "./hedera-testnet";
 

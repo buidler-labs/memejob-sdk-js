@@ -7,9 +7,12 @@ export const parseQueryParams = (url: string): Record<string, unknown> => {
   return url
     .substring(queryStart + 1)
     .split("&")
-    .reduce((acc, param) => {
-      const [key, value] = param.split("=").map(decodeURIComponent);
-      if (key) acc[key] = Number(value) || value || "";
-      return acc;
-    }, {} as Record<string, unknown>);
+    .reduce(
+      (acc, param) => {
+        const [key, value] = param.split("=").map(decodeURIComponent);
+        if (key) acc[key] = Number(value) || value || "";
+        return acc;
+      },
+      {} as Record<string, unknown>
+    );
 };

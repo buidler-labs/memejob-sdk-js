@@ -1,11 +1,11 @@
-import {
+import type {
   Client,
   FetchResponse,
   InitParam,
   MaybeOptionalInit,
 } from "openapi-fetch";
-import { type paths } from "./openapi/schema";
-import { MediaType, PathsWithMethod } from "openapi-typescript-helpers";
+import type { MediaType, PathsWithMethod } from "openapi-typescript-helpers";
+import type { paths } from "./openapi/schema";
 
 export type MirrorPaths = paths;
 

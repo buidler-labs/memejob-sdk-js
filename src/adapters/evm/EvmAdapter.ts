@@ -1,26 +1,26 @@
+import { type ContractId, TokenId } from "@hashgraph/sdk";
 import {
-  createWalletClient,
-  custom,
   http,
   type PrivateKeyAccount,
   type WalletClient,
+  createWalletClient,
+  custom,
 } from "viem";
 import { waitForTransactionReceipt } from "viem/actions";
-import { MJAdapter, MJAdapterParameters } from "../MJAdapter";
-import {
-  type BuyFunctionParameters,
-  type CreateFunctionParameters,
-  type SellFunctionParameters,
-} from "../../types";
-import { isEvmAddress, toEvmAddress } from "../../utils/address";
-import { ContractId, TokenId } from "@hashgraph/sdk";
+import type { MJToken } from "../../MJToken";
 import {
   hederaApproveAllowanceABI,
   hederaAssociateABI,
   hederaErc20ABI,
   memejobABI,
 } from "../../abi";
-import { MJToken } from "../../MJToken";
+import type {
+  BuyFunctionParameters,
+  CreateFunctionParameters,
+  SellFunctionParameters,
+} from "../../types";
+import { isEvmAddress, toEvmAddress } from "../../utils/address";
+import { MJAdapter, type MJAdapterParameters } from "../MJAdapter";
 
 /** EIP-1193 compliant Ethereum provider interface */
 type EthereumProvider = { request(...args: any): Promise<any> };

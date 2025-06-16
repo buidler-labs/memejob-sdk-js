@@ -1,11 +1,11 @@
-import { withRetry, type WithRetryParameters } from "../../utils";
-import { MirrorNodeError } from "../errors";
-import {
+import type {
   MirrorClient,
   MirrorDataResponse,
   MirrorGetOptions,
   MirrorPath,
 } from "..";
+import { type WithRetryParameters, withRetry } from "../../utils";
+import { MirrorNodeError } from "../errors";
 
 export type MirrorNodeGetParameters<C, P, O, D, R> = {
   client: C;
@@ -20,7 +20,7 @@ export const get = async <
   P extends MirrorPath,
   O extends MirrorGetOptions<P>,
   D extends MirrorDataResponse<P, O>,
-  R = D
+  R = D,
 >(
   parameters: MirrorNodeGetParameters<C, P, O, D, R>
 ): Promise<R> => {

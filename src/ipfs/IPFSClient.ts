@@ -1,5 +1,5 @@
 import { CID } from "multiformats";
-import { IPFSServiceBase } from "./services/IPFSServiceBase";
+import type { IPFSServiceBase } from "./services/IPFSServiceBase";
 
 export class IpfsClient<TService extends IPFSServiceBase> {
   protected _service!: IPFSServiceBase;
@@ -31,9 +31,9 @@ export class IpfsClient<TService extends IPFSServiceBase> {
           error.response.data.error?.message ||
             error.response.data.error?.details
         );
-      } else {
-        throw new Error(error.message);
       }
+
+      throw new Error(error.message);
     }
   }
 

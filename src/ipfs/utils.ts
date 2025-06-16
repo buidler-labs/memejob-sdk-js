@@ -9,7 +9,9 @@ export function toQueryParams(obj: Record<string, any>): string {
         ? value
             .map(
               (v) =>
-                `${encodeURIComponent(camelToDash(key))}=${encodeURIComponent(v)}`
+                `${encodeURIComponent(camelToDash(key))}=${encodeURIComponent(
+                  v
+                )}`
             )
             .join("&")
         : `${encodeURIComponent(camelToDash(key))}=${encodeURIComponent(value)}`

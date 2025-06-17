@@ -15,7 +15,6 @@ The SDK is designed to simplify the integration of [memejob](https://memejob.fun
 
 Full documentation page: [memejob-sdk-js - Docs](https://buidler-labs.github.io/memejob-sdk-js/)
 
-
 ## Prerequisites
 
 Before you begin, make sure you have:
@@ -27,13 +26,13 @@ Before you begin, make sure you have:
 ## Installation
 
 ```sh [npm]
-$ npm i memejob-sdk-js @hashgraph/sdk viem
+$ npm i @buidlerlabs/memejob-sdk-js @hashgraph/sdk viem
 ```
 
 or
 
 ```sh [npm]
-$ pnpm add memejob-sdk-js @hashgraph/sdk viem
+$ pnpm add @buidlerlabs/memejob-sdk-js @hashgraph/sdk viem
 ```
 
 ## Usage
@@ -42,9 +41,12 @@ Setup a new memejob client
 
 ```typescript [@hashgraph/sdk]
 import { AccountId, ContractId, PrivateKey } from "@hashgraph/sdk";
-import { MJClient } from "memejob-sdk-js";
-import { createAdapter, NativeAdapter } from "memejob-sdk-js/adapters";
-import { getChain } from "memejob-sdk-js/chains";
+import { MJClient } from "@buidlerlabs/memejob-sdk-js";
+import {
+  createAdapter,
+  NativeAdapter,
+} from "@buidlerlabs/memejob-sdk-js/adapters";
+import { getChain } from "@buidlerlabs/memejob-sdk-js/chains";
 
 const contractId = ContractId.fromString("0.0.123456");
 

@@ -15,19 +15,19 @@ Before you begin, make sure you have:
 ::: code-group
 
 ```sh [npm]
-$ npm i memejob-sdk-js @hashgraph/sdk viem
+$ npm i @buidlerlabs/memejob-sdk-js @hashgraph/sdk viem
 ```
 
 ```sh [pnpm]
-$ pnpm add memejob-sdk-js @hashgraph/sdk viem
+$ pnpm add @buidlerlabs/memejob-sdk-js @hashgraph/sdk viem
 ```
 
 ```sh [yarn]
-$ yarn add memejob-sdk-js @hashgraph/sdk viem
+$ yarn add @buidlerlabs/memejob-sdk-js @hashgraph/sdk viem
 ```
 
 ```sh [bun]
-$ bun add memejob-sdk-js @hashgraph/sdk viem
+$ bun add @buidlerlabs/memejob-sdk-js @hashgraph/sdk viem
 ```
 
 :::
@@ -40,9 +40,9 @@ Setup a new memejob client
 
 ```typescript [@hashgraph/sdk]
 import { AccountId, ContractId, PrivateKey } from "@hashgraph/sdk";
-import { MJClient } from "memejob-sdk-js";
-import { createAdapter, NativeAdapter } from "memejob-sdk-js/adapters";
-import { getChain } from "memejob-sdk-js/chains";
+import { MJClient } from "@buidlerlabs/memejob-sdk-js";
+import { createAdapter, NativeAdapter } from "@buidlerlabs/memejob-sdk-js/adapters";
+import { getChain } from "@buidlerlabs/memejob-sdk-js/chains";
 
 const contractId = ContractId.fromString("0.0.123456"); // [!code focus]
 
@@ -67,9 +67,9 @@ const client = new MJClient( // [!code focus]
 ```typescript [viem]
 import { ContractId } from "@hashgraph/sdk";
 import { privateKeyToAccount } from "viem/accounts";
-import { MJClient } from "memejob-sdk-js";
-import { createAdapter, EvmAdapter } from "memejob-sdk-js/adapters";
-import { getChain } from "memejob-sdk-js/chains";
+import { MJClient } from "@buidlerlabs/memejob-sdk-js";
+import { createAdapter, EvmAdapter } from "@buidlerlabs/memejob-sdk-js/adapters";
+import { getChain } from "@buidlerlabs/memejob-sdk-js/chains";
 
 const contractId = ContractId.fromEvmAddress(0, 0, "0x123..456"); // [!code focus]
 

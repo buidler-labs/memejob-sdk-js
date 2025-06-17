@@ -28,9 +28,12 @@ The SDK has two built-in types of network adapters
 
 ```typescript
 import { AccountId, ContractId, PrivateKey } from "@hashgraph/sdk";
-import { MJClient } from "memejob-sdk-js";
-import { createAdapter, NativeAdapter } from "memejob-sdk-js/adapters";
-import { getChain } from "memejob-sdk-js/chains";
+import { MJClient } from "@buidlerlabs/memejob-sdk-js";
+import {
+  createAdapter,
+  NativeAdapter,
+} from "@buidlerlabs/memejob-sdk-js/adapters";
+import { getChain } from "@buidlerlabs/memejob-sdk-js/chains";
 
 const contractId = ContractId.fromString("0.0.123456");
 
@@ -53,9 +56,12 @@ const client = new MJClient(
 ```typescript
 import { ContractId } from "@hashgraph/sdk";
 import { privateKeyToAccount } from "viem/accounts";
-import { MJClient } from "memejob-sdk-js";
-import { createAdapter, EvmAdapter } from "memejob-sdk-js/adapters";
-import { getChain } from "memejob-sdk-js/chains";
+import { MJClient } from "@buidlerlabs/memejob-sdk-js";
+import {
+  createAdapter,
+  EvmAdapter,
+} from "@buidlerlabs/memejob-sdk-js/adapters";
+import { getChain } from "@buidlerlabs/memejob-sdk-js/chains";
 
 const contractId = ContractId.fromEvmAddress(0, 0, "0x123..456");
 
@@ -75,7 +81,7 @@ const client = new MJClient(
 The SDK uses the `viem` library for chain configuration. You can get the chain configuration using the `getChain` function:
 
 ```typescript
-import { getChain } from "memejob-sdk-js/chains";
+import { getChain } from "@buidlerlabs/memejob-sdk-js/chains";
 
 // Get mainnet configuration
 const mainnetChain = getChain("mainnet");
@@ -113,5 +119,5 @@ const client = new MJClient(
 ```
 
 ::: tip
-  **Security**: Never commit private keys or api keys to version control
+**Security**: Never commit private keys or api keys to version control
 :::

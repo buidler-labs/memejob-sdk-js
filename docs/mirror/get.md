@@ -87,7 +87,7 @@ interface WithRetryParameters {
 ### Basic Usage
 
 ```typescript
-import { get } from "memejob-sdk-js/mirror";
+import { get } from "@buidlerlabs/memejob-sdk-js/mirror";
 
 const result = await get({
   client: mirrorClient,
@@ -105,7 +105,7 @@ const result = await get({
 ### With Query Parameters
 
 ```typescript
-import { get } from "memejob-sdk-js/mirror";
+import { get } from "@buidlerlabs/memejob-sdk-js/mirror";
 
 const result = await get({
   client: mirrorClient,
@@ -124,7 +124,7 @@ const result = await get({
 ### With Data Transformation
 
 ```typescript
-import { get } from "memejob-sdk-js/mirror";
+import { get } from "@buidlerlabs/memejob-sdk-js/mirror";
 
 const result = await get({
   client: mirrorClient,
@@ -150,7 +150,7 @@ const result = await get({
 ### With Retry Configuration
 
 ```typescript
-import { get } from "memejob-sdk-js/mirror";
+import { get } from "@buidlerlabs/memejob-sdk-js/mirror";
 
 const result = await get({
   client: mirrorClient,
@@ -175,7 +175,7 @@ const result = await get({
 The action throws a `MirrorNodeError` if the API request fails. You can handle specific error types:
 
 ```typescript
-import { get, MirrorNodeError } from "memejob-sdk-js/mirror";
+import { get, MirrorNodeError } from "@buidlerlabs/memejob-sdk-js/mirror";
 
 try {
   const result = await get({

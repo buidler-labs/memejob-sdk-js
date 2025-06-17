@@ -54,8 +54,8 @@ class MJMemoBuilder {
 ### Basic Setup
 
 ```typescript
-import { MJMemoBuilder } from "memejob-sdk-js";
-import { PinataService } from "memejob-sdk-js/ipfs";
+import { MJMemoBuilder } from "@buidlerlabs/memejob-sdk-js";
+import { PinataService } from "@buidlerlabs/memejob-sdk-js/ipfs";
 
 // Initialize with your preferred IPFS service
 const pinataService = new PinataService({

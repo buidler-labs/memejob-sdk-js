@@ -22,7 +22,7 @@ interface IPFSServiceBase {
 ### 1. Pinata Service
 
 ```typescript
-import { PinataService } from "memejob-sdk-js/ipfs";
+import { PinataService } from "@buidlerlabs/memejob-sdk-js/ipfs";
 
 const pinataService = new PinataService({
   gatewayUrl: "https://your-pinata-gateway.com",
@@ -32,15 +32,15 @@ const pinataService = new PinataService({
 
 #### Configuration
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
+| Parameter    | Type     | Description             |
+| ------------ | -------- | ----------------------- |
 | `gatewayUrl` | `string` | Your Pinata gateway URL |
-| `jwt` | `string` | Your Pinata JWT token |
+| `jwt`        | `string` | Your Pinata JWT token   |
 
 ### 2. Infura Service
 
 ```typescript
-import { InfuraService } from "memejob-sdk-js/ipfs";
+import { InfuraService } from "@buidlerlabs/memejob-sdk-js/ipfs";
 
 const infuraService = new InfuraService({
   gatewayUrl: "https://your-infura-gateway.com",
@@ -51,10 +51,10 @@ const infuraService = new InfuraService({
 
 #### Configuration
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `gatewayUrl` | `string` | Your Infura gateway URL |
-| `projectId` | `string` | Your Infura project ID |
+| Parameter       | Type     | Description                |
+| --------------- | -------- | -------------------------- |
+| `gatewayUrl`    | `string` | Your Infura gateway URL    |
+| `projectId`     | `string` | Your Infura project ID     |
 | `projectSecret` | `string` | Your Infura project secret |
 
 ## Usage
@@ -62,8 +62,8 @@ const infuraService = new InfuraService({
 ### Basic Setup
 
 ```typescript
-import { MJMemoBuilder } from "memejob-sdk-js";
-import { PinataService } from "memejob-sdk-js/ipfs";
+import { MJMemoBuilder } from "@buidlerlabs/memejob-sdk-js";
+import { PinataService } from "@buidlerlabs/memejob-sdk-js/ipfs";
 
 // Initialize IPFS service
 const pinataService = new PinataService({
@@ -102,4 +102,4 @@ const memoBuilder = new MJMemoBuilder(infuraService);
 ## Related Documentation
 
 - [Memo Builder](./memo-builder.md) - Using IPFS services with the memo builder
-- [Token Metadata](./metadata.md) - Understanding token metadata structure 
+- [Token Metadata](./metadata.md) - Understanding token metadata structure

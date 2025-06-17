@@ -7,7 +7,6 @@ import {
   type PublicClient,
   type TransactionReceipt as ViemTransactionReceipt,
   createPublicClient,
-  getAddress,
 } from "viem";
 import type { MJClient } from "../MJClient";
 import type { MJToken } from "../MJToken";
@@ -174,15 +173,14 @@ export abstract class MJAdapter {
    */
   async checkTokenExistence(address: Address): Promise<boolean> {
     try {
-      const tokens = (await this.publicClient.readContract({
+      const token = (await this.publicClient.readContract({
         address: toEvmAddress(this.contractId),
         abi: memejobABI,
-        functionName: "getAllMemeJobs",
-      })) as { tokenAddress: Address }[];
+        functionName: "addressToMemeTokenMapping",
+        args: [address],
+      })) as { tokenAddress: Address };
 
-      return tokens.some(
-        (token) => getAddress(token.tokenAddress) === getAddress(address)
-      );
+      return !!token;
     } catch {
       // no-op on error, assume token does not exist
       return false;

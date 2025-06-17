@@ -2,6 +2,11 @@
   "name": "memejob-sdk-js",
   "version": "0.0.1",
   "description": "memejob.fun - SDK",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/buidler-labs/memejob-sdk-js.git"
+  },
+  "homepage": "https://memejob.fun",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "scripts": {

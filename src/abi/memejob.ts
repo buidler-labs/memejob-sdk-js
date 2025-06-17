@@ -1,3 +1,4 @@
+import memejobAddressTokenMapping from "./memejob-address-token-mapping";
 import memejobBuy from "./memejob-buy";
 import memejobCreate from "./memejob-create";
 import memejobErrors from "./memejob-errors";
@@ -15,4 +16,5 @@ export default [
   ...memejobGetTokens,
   ...memejobQuote,
   ...memejobSell,
+  ...memejobAddressTokenMapping,
 ];

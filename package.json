@@ -54,7 +54,6 @@
     "@hashgraph/sdk": "^2.66.0",
     "@types/node": "^24.0.1",
     "chalk": "^5.4.1",
-    "dotenv": "^16.5.0",
     "meow": "^13.2.0",
     "msw": "^2.10.2",
     "openapi-typescript": "7.5.2",

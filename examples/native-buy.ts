@@ -1,7 +1,6 @@
 import { AccountId, ContractId, PrivateKey } from "@hashgraph/sdk";
 import { MJClient } from "../src/MJClient";
-import { NativeAdapter } from "../src/adapters";
-import { createAdapter } from "../src/adapters/create";
+import { createAdapter, NativeAdapter } from "../src/adapters";
 import { getChain } from "../src/chains";
 import { CONTRACT_DEPLOYMENTS } from "../src/config";
 

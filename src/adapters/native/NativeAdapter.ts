@@ -13,14 +13,13 @@ import {
 import type { MJToken } from "../../MJToken";
 import hederaMainnet from "../../chains/hedera-mainnet";
 import hederaTestnet from "../../chains/hedera-testnet";
-import { getPaginated } from "../../mirror";
+import { MirrorActions } from "../../mirror";
 import type {
   BuyFunctionParameters,
   CreateFunctionParameters,
   SellFunctionParameters,
 } from "../../types";
-import { withRetry } from "../../utils";
-import { isNativeAddress } from "../../utils/address";
+import { withRetry, isNativeAddress } from "../../utils";
 import { MJAdapter, type MJAdapterParameters } from "../MJAdapter";
 
 /** Configuration parameters for NativeAdapter initialization */
@@ -219,7 +218,7 @@ export class NativeAdapter extends MJAdapter {
    */
   async getBalance(token: MJToken): Promise<bigint> {
     const balancePages = await withRetry(() =>
-      getPaginated({
+      MirrorActions.getPaginated({
         client: this.memejob.mirror.client,
         path: "/api/v1/balances",
         options: {

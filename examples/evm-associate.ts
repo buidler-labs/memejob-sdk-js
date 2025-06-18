@@ -1,8 +1,7 @@
 import { ContractId } from "@hashgraph/sdk";
 import { privateKeyToAccount } from "viem/accounts";
 import { MJClient } from "../src/MJClient";
-import { createAdapter } from "../src/adapters/create";
-import { EvmAdapter } from "../src/adapters/evm";
+import { createAdapter, EvmAdapter } from "../src/adapters";
 import { getChain } from "../src/chains";
 import { CONTRACT_DEPLOYMENTS } from "../src/config";
 

@@ -49,9 +49,12 @@ interface CreateOptions {
 
 ```typescript
 import { AccountId, ContractId, PrivateKey } from "@hashgraph/sdk";
-import { MJClient } from "@buidlerlabs/memejob-sdk-js";
-import { createAdapter, NativeAdapter } from "@buidlerlabs/memejob-sdk-js/adapters";
-import { getChain } from "@buidlerlabs/memejob-sdk-js/chains";
+import {
+  createAdapter,
+  getChain,
+  MJClient,
+  NativeAdapter,
+} from "@buidlerlabs/memejob-sdk-js";
 
 // Initialize the client
 const client = new MJClient(

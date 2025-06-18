@@ -87,9 +87,9 @@ interface WithRetryParameters {
 ### Basic Usage
 
 ```typescript
-import { get } from "@buidlerlabs/memejob-sdk-js/mirror";
+import { MirrorActions } from "@buidlerlabs/memejob-sdk-js";
 
-const result = await get({
+const result = await MirrorActions.get({
   client: mirrorClient,
   path: "/api/v1/tokens/{tokenId}",
   options: {
@@ -105,9 +105,9 @@ const result = await get({
 ### With Query Parameters
 
 ```typescript
-import { get } from "@buidlerlabs/memejob-sdk-js/mirror";
+import { MirrorActions } from "@buidlerlabs/memejob-sdk-js";
 
-const result = await get({
+const result = await MirrorActions.get({
   client: mirrorClient,
   path: "/api/v1/balances",
   options: {
@@ -124,9 +124,9 @@ const result = await get({
 ### With Data Transformation
 
 ```typescript
-import { get } from "@buidlerlabs/memejob-sdk-js/mirror";
+import { MirrorActions } from "@buidlerlabs/memejob-sdk-js";
 
-const result = await get({
+const result = await MirrorActions.get({
   client: mirrorClient,
   path: "/api/v1/tokens/{tokenId}",
   options: {
@@ -150,9 +150,9 @@ const result = await get({
 ### With Retry Configuration
 
 ```typescript
-import { get } from "@buidlerlabs/memejob-sdk-js/mirror";
+import { MirrorActions } from "@buidlerlabs/memejob-sdk-js";
 
-const result = await get({
+const result = await MirrorActions.get({
   client: mirrorClient,
   path: "/api/v1/tokens/{tokenId}",
   options: {
@@ -175,10 +175,10 @@ const result = await get({
 The action throws a `MirrorNodeError` if the API request fails. You can handle specific error types:
 
 ```typescript
-import { get, MirrorNodeError } from "@buidlerlabs/memejob-sdk-js/mirror";
+import { MirrorActions, MirrorNodeError } from "@buidlerlabs/memejob-sdk-js";
 
 try {
-  const result = await get({
+  const result = await MirrorActions.get({
     client: mirrorClient,
     path: "/api/v1/tokens/{tokenId}",
     options: {

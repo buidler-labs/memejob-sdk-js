@@ -1,4 +1,4 @@
-export * from "./errors";
+export * as MirrorActions from "./actions";
 export * from "./config";
-export * from "./actions";
+export * from "./errors";
 export * from "./types";

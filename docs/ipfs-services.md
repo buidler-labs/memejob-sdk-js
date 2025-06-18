@@ -22,7 +22,7 @@ interface IPFSServiceBase {
 ### 1. Pinata Service
 
 ```typescript
-import { PinataService } from "@buidlerlabs/memejob-sdk-js/ipfs";
+import { PinataService } from "@buidlerlabs/memejob-sdk-js";
 
 const pinataService = new PinataService({
   gatewayUrl: "https://your-pinata-gateway.com",
@@ -40,7 +40,7 @@ const pinataService = new PinataService({
 ### 2. Infura Service
 
 ```typescript
-import { InfuraService } from "@buidlerlabs/memejob-sdk-js/ipfs";
+import { InfuraService } from "@buidlerlabs/memejob-sdk-js";
 
 const infuraService = new InfuraService({
   gatewayUrl: "https://your-infura-gateway.com",
@@ -62,8 +62,7 @@ const infuraService = new InfuraService({
 ### Basic Setup
 
 ```typescript
-import { MJMemoBuilder } from "@buidlerlabs/memejob-sdk-js";
-import { PinataService } from "@buidlerlabs/memejob-sdk-js/ipfs";
+import { MJMemoBuilder, PinataService } from "@buidlerlabs/memejob-sdk-js";
 
 // Initialize IPFS service
 const pinataService = new PinataService({

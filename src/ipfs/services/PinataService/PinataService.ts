@@ -1,11 +1,11 @@
 import axios from "axios";
-import { CID } from "multiformats/cid";
 import { IPFSServiceBase } from "../IPFSServiceBase";
 import type {
   PinataAddOptions,
   PinataInitOptions,
   PinataPinOptions,
 } from "./types";
+import { File } from "@web-std/file";
 
 export type ServiceConfig = {
   apiUrl: string;
@@ -64,7 +64,7 @@ export class PinataService extends IPFSServiceBase {
    * @param options - Optional add options including metadata and pinning options.
    * @returns A Promise resolving to the CID of the added content.
    */
-  async add(value: Blob, options?: PinataAddOptions): Promise<CID> {
+  async add(value: Blob, options?: PinataAddOptions): Promise<string> {
     const file = new File([value], options?.pinataMetadata?.name ?? "file");
     const form = new FormData();
     form.append("file", file);
@@ -85,7 +85,7 @@ export class PinataService extends IPFSServiceBase {
       }
     );
 
-    return CID.parse(response.data.IpfsHash);
+    return response.data.IpfsHash;
   }
 
   /**
@@ -93,7 +93,7 @@ export class PinataService extends IPFSServiceBase {
    * @param cid - The CID of the content to fetch.
    * @returns A Promise resolving to the content as a string.
    */
-  async get(cid: CID): Promise<string> {
+  async get(cid: string): Promise<string> {
     const response = await axios.get(
       `${this._config.gatewayUrl}/ipfs/${cid.toString()}`,
       {
@@ -113,7 +113,7 @@ export class PinataService extends IPFSServiceBase {
    * @param options - Optional pinning options including metadata and pinning preferences.
    * @returns A Promise resolving to the CID of the pinned content.
    */
-  async pin(cid: CID, options?: PinataPinOptions): Promise<CID> {
+  async pin(cid: string, options?: PinataPinOptions): Promise<string> {
     const payload: Record<string, string> = {
       hashToPin: cid.toString(),
     };
@@ -135,7 +135,7 @@ export class PinataService extends IPFSServiceBase {
       }
     );
 
-    return CID.parse(response.data.ipfsHash);
+    return response.data.ipfsHash;
   }
 
   /**
@@ -143,7 +143,7 @@ export class PinataService extends IPFSServiceBase {
    * @param cid - The CID of the content to unpin.
    * @returns A Promise resolving to a confirmation string.
    */
-  async unpin(cid: CID): Promise<string> {
+  async unpin(cid: string): Promise<string> {
     const response = await axios.delete(
       `${this._config.apiUrl}/pinning/unpin/${cid.toString()}`,
       {

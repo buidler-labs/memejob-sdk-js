@@ -1,8 +1,7 @@
 import { type ContractId, TokenId } from "@hashgraph/sdk";
 import type { Chain } from "viem";
 import { MJToken, MJ_TOKEN_CONSTRUCTOR_GUARD } from "./MJToken";
-import { MJAdapter } from "./adapters/MJAdapter";
-import type { CreateAdapterFunc } from "./adapters/create";
+import { MJAdapter, type CreateAdapterFunc } from "./adapters";
 import { ZERO_ADDRESS } from "./config";
 import { type MirrorClientConfig, createMirrorConfig } from "./mirror";
 import type {
@@ -10,7 +9,7 @@ import type {
   CreateOptions,
   CreateTokenParameters,
 } from "./types";
-import { toEvmAddress } from "./utils/address";
+import { toEvmAddress } from "./utils";
 
 /**
  * Configuration options for `MJClient` initialization.

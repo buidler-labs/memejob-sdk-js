@@ -40,9 +40,12 @@ Setup a new memejob client
 
 ```typescript [@hashgraph/sdk]
 import { AccountId, ContractId, PrivateKey } from "@hashgraph/sdk";
-import { MJClient } from "@buidlerlabs/memejob-sdk-js";
-import { createAdapter, NativeAdapter } from "@buidlerlabs/memejob-sdk-js/adapters";
-import { getChain } from "@buidlerlabs/memejob-sdk-js/chains";
+import {
+  createAdapter,
+  getChain,
+  MJClient,
+  NativeAdapter,
+} from "@buidlerlabs/memejob-sdk-js";
 
 const contractId = ContractId.fromString("0.0.123456"); // [!code focus]
 
@@ -67,9 +70,12 @@ const client = new MJClient( // [!code focus]
 ```typescript [viem]
 import { ContractId } from "@hashgraph/sdk";
 import { privateKeyToAccount } from "viem/accounts";
-import { MJClient } from "@buidlerlabs/memejob-sdk-js";
-import { createAdapter, EvmAdapter } from "@buidlerlabs/memejob-sdk-js/adapters";
-import { getChain } from "@buidlerlabs/memejob-sdk-js/chains";
+import {
+  createAdapter,
+  EvmAdapter,
+  getChain,
+  MJClient,
+} from "@buidlerlabs/memejob-sdk-js";
 
 const contractId = ContractId.fromEvmAddress(0, 0, "0x123..456"); // [!code focus]
 

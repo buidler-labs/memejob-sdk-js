@@ -19,7 +19,7 @@ import type {
   CreateFunctionParameters,
   SellFunctionParameters,
 } from "../../types";
-import { isEvmAddress, toEvmAddress } from "../../utils/address";
+import { isEvmAddress, toEvmAddress } from "../../utils";
 import { MJAdapter, type MJAdapterParameters } from "../MJAdapter";
 
 /** EIP-1193 compliant Ethereum provider interface */

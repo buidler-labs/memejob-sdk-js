@@ -2,16 +2,16 @@ import type { Chain } from "viem";
 import mainnet from "./hedera-mainnet";
 import testnet from "./hedera-testnet";
 
-export const defaults = {
+export const SUPPORTED_CHAINS = {
   mainnet,
   testnet,
 };
 
 export const getChain = (
-  chain: keyof typeof defaults,
+  chain: keyof typeof SUPPORTED_CHAINS,
   config?: { rpcUrl?: string }
 ) => {
-  const selection = { ...defaults[chain] };
+  const selection = { ...SUPPORTED_CHAINS[chain] };
 
   if (config?.rpcUrl) {
     selection.rpcUrls.default.http = [config.rpcUrl];

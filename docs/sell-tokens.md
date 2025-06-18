@@ -30,9 +30,12 @@ interface SellParameters {
 ```typescript
 import { ContractId } from "@hashgraph/sdk";
 import { privateKeyToAccount } from "viem/accounts";
-import { MJClient } from "@buidlerlabs/memejob-sdk-js";
-import { createAdapter, EvmAdapter } from "@buidlerlabs/memejob-sdk-js/adapters";
-import { getChain } from "@buidlerlabs/memejob-sdk-js/chains";
+import {
+  createAdapter,
+  EvmAdapter,
+  getChain,
+  MJClient,
+} from "@buidlerlabs/memejob-sdk-js";
 
 // Initialize client
 const client = new MJClient(

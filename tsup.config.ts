@@ -1,15 +1,7 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: [
-    "src/index.ts",
-    "src/abi/index.ts",
-    "src/adapters/index.ts",
-    "src/chains/index.ts",
-    "src/ipfs/index.ts",
-    "src/mirror/index.ts",
-    "src/utils/index.ts",
-  ],
+  entry: ["src/index.ts"],
   external: ["@hashgraph/sdk", "viem"],
   format: ["esm", "cjs"],
   dts: true,

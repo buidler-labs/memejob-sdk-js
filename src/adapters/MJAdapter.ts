@@ -17,7 +17,7 @@ import type {
   CreateFunctionParameters,
   SellFunctionParameters,
 } from "../types";
-import { toEvmAddress } from "../utils/address";
+import { toEvmAddress } from "../utils";
 import { MJ_ADAPTER_CONSTRUCTOR_GUARD } from "./create";
 
 /** Base configuration parameters for `MJAdapter` initialization */

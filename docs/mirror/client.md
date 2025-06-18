@@ -12,8 +12,7 @@ The Mirror Node client is organized two key components:
 ## Configuration
 
 ```typescript
-import { createMirrorConfig } from "@buidlerlabs/memejob-sdk-js/mirror";
-import { getChain } from "@buidlerlabs/memejob-sdk-js/chains";
+import { createMirrorConfig, getChain } from "@buidlerlabs/memejob-sdk-js";
 
 const mirrorClient = createMirrorConfig({
   chain: getChain("testnet"),

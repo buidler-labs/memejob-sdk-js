@@ -65,7 +65,9 @@ interface MirrorGetOptions<P> {
 Optional function to transform each page of data before adding it to the results.
 
 ```typescript
-type TransformFunction<ResponseData, ReturnType> = (page: ResponseData) => ReturnType;
+type TransformFunction<ResponseData, ReturnType> = (
+  page: ResponseData
+) => ReturnType;
 ```
 
 ### 5. Retry Options (`retryOptions`)
@@ -88,9 +90,9 @@ interface WithRetryParameters {
 ### Basic Usage
 
 ```typescript
-import { getPaginated } from "@buidlerlabs/memejob-sdk-js/mirror";
+import { MirrorActions } from "@buidlerlabs/memejob-sdk-js";
 
-const results = await getPaginated({
+const results = await MirrorActions.getPaginated({
   client: mirrorClient,
   path: "/api/v1/tokens",
 });
@@ -99,9 +101,9 @@ const results = await getPaginated({
 ### With Query Parameters
 
 ```typescript
-import { getPaginated } from "@buidlerlabs/memejob-sdk-js/mirror";
+import { MirrorActions } from "@buidlerlabs/memejob-sdk-js";
 
-const results = await getPaginated({
+const results = await MirrorActions.getPaginated({
   client: mirrorClient,
   path: "/api/v1/balances",
   options: {
@@ -118,9 +120,9 @@ const results = await getPaginated({
 ### With Path Parameters
 
 ```typescript
-import { getPaginated } from "@buidlerlabs/memejob-sdk-js/mirror";
+import { MirrorActions } from "@buidlerlabs/memejob-sdk-js";
 
-const results = await getPaginated({
+const results = await MirrorActions.getPaginated({
   client: mirrorClient,
   path: "/api/v1/tokens/{tokenId}/balances",
   options: {
@@ -139,9 +141,9 @@ const results = await getPaginated({
 ### With Data Transformation
 
 ```typescript
-import { getPaginated } from "@buidlerlabs/memejob-sdk-js/mirror";
+import { MirrorActions } from "@buidlerlabs/memejob-sdk-js";
 
-const results = await getPaginated({
+const results = await MirrorActions.getPaginated({
   client: mirrorClient,
   path: "/api/v1/balances",
   options: {
@@ -164,9 +166,9 @@ const results = await getPaginated({
 ### With Retry Configuration
 
 ```typescript
-import { getPaginated } from "@buidlerlabs/memejob-sdk-js/mirror";
+import { MirrorActions } from "@buidlerlabs/memejob-sdk-js";
 
-const results = await getPaginated({
+const results = await MirrorActions.getPaginated({
   client: mirrorClient,
   path: "/api/v1/tokens",
   retryOptions: {
@@ -182,10 +184,10 @@ const results = await getPaginated({
 The action throws a `MirrorNodeError` if any page request fails. You can handle specific error types:
 
 ```typescript
-import { getPaginated, MirrorNodeError } from "@buidlerlabs/memejob-sdk-js/mirror";
+import { MirrorActions, MirrorNodeError } from "@buidlerlabs/memejob-sdk-js";
 
 try {
-  const results = await getPaginated({
+  const results = await MirrorActions.getPaginated({
     client: mirrorClient,
     path: "/api/v1/tokens",
   });

@@ -41,12 +41,12 @@ Setup a new memejob client
 
 ```typescript [@hashgraph/sdk]
 import { AccountId, ContractId, PrivateKey } from "@hashgraph/sdk";
-import { MJClient } from "@buidlerlabs/memejob-sdk-js";
 import {
   createAdapter,
+  getChain,
+  MJClient,
   NativeAdapter,
-} from "@buidlerlabs/memejob-sdk-js/adapters";
-import { getChain } from "@buidlerlabs/memejob-sdk-js/chains";
+} from "@buidlerlabs/memejob-sdk-js";
 
 const contractId = ContractId.fromString("0.0.123456");
 

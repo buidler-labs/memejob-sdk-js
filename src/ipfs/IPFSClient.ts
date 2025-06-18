@@ -1,4 +1,3 @@
-import { CID } from "multiformats";
 import type { IPFSServiceBase } from "./services/IPFSServiceBase";
 
 /**
@@ -35,12 +34,14 @@ export class IpfsClient<TService extends IPFSServiceBase> {
       return await this._service[method](...params);
     } catch (error: any) {
       if (error.response) {
-        throw new Error(
+        const errorMessage =
           error.response.data.error?.message ||
-            error.response.data.error?.details
-        );
+          error.response.data.error?.details ||
+          error.response.data.error;
+
+        throw new Error(`[IPFSClient]: ${errorMessage}`);
       }
-      throw new Error(error.message);
+      throw new Error(`[IPFSClient]: ${error.message}`);
     }
   }
 
@@ -53,7 +54,7 @@ export class IpfsClient<TService extends IPFSServiceBase> {
   async add(
     value: Blob | Record<string, unknown> | string,
     options?: Parameters<TService["add"]>[1]
-  ): Promise<CID> {
+  ): Promise<string> {
     let blob: Blob;
 
     if (value instanceof Blob) {
@@ -73,35 +74,35 @@ export class IpfsClient<TService extends IPFSServiceBase> {
    * @returns The retrieved content as a string.
    */
   async get(
-    value: string,
+    cid: string,
     options?: Parameters<TService["get"]>[1]
   ): Promise<string> {
-    return this.request("get", CID.parse(value), options);
+    return this.request("get", cid, options);
   }
 
   /**
    * Pins a file to IPFS by its CID.
-   * @param value The CID of the IPFS object to pin.
+   * @param cid The CID of the IPFS object to pin.
    * @param options Optional parameters supported by the service's `pin` method.
    * @returns The pinned CID or an array of CIDs.
    */
   async pin(
-    value: string,
+    cid: string,
     options?: Parameters<TService["pin"]>[1]
-  ): Promise<CID | CID[]> {
-    return this.request("pin", CID.parse(value), options);
+  ): Promise<string | string[]> {
+    return this.request("pin", cid, options);
   }
 
   /**
    * Unpins a file from IPFS by its CID.
-   * @param value The CID of the IPFS object to unpin.
+   * @param cid The CID of the IPFS object to unpin.
    * @param options Optional parameters supported by the service's `unpin` method.
    * @returns The unpinned CID as a string.
    */
   async unpin(
-    value: string,
+    cid: string,
     options?: Parameters<TService["unpin"]>[1]
   ): Promise<string> {
-    return this.request("unpin", CID.parse(value), options);
+    return this.request("unpin", cid, options);
   }
 }

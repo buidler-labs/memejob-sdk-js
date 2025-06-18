@@ -1,5 +1,4 @@
 import axios from "axios";
-import { CID } from "multiformats/cid";
 import { toQueryParams } from "../../utils";
 import { IPFSServiceBase } from "../IPFSServiceBase";
 import type { InfuraAddOptions, InfuraInitOptions } from "./types";
@@ -77,7 +76,7 @@ export class InfuraService extends IPFSServiceBase {
     options: InfuraAddOptions = {
       pin: true,
     }
-  ): Promise<CID> {
+  ): Promise<string> {
     const params = options ? `?${toQueryParams(options)}` : "";
     const form = new FormData();
     form.append("file", value);
@@ -93,7 +92,7 @@ export class InfuraService extends IPFSServiceBase {
       }
     );
 
-    return CID.parse(response.data.Hash);
+    return response.data.Hash;
   }
 
   /**
@@ -101,7 +100,7 @@ export class InfuraService extends IPFSServiceBase {
    * @param cid - The CID of the content to retrieve.
    * @returns A Promise resolving to the content as a string.
    */
-  async get(cid: CID): Promise<string> {
+  async get(cid: string): Promise<string> {
     const response = await axios.post(
       `${this._config.baseUrl}/api/v0/cat?arg=${cid.toString()}`,
       null,
@@ -121,7 +120,7 @@ export class InfuraService extends IPFSServiceBase {
    * @param cid - The CID to pin.
    * @returns A Promise resolving to an array of pinned CIDs.
    */
-  async pin(cid: CID): Promise<CID[]> {
+  async pin(cid: string): Promise<string[]> {
     const response = await axios.post(
       `${this._config.baseUrl}/api/v0/pin/add?arg=${cid.toString()}`,
       null,
@@ -134,7 +133,7 @@ export class InfuraService extends IPFSServiceBase {
     );
 
     if (Array.isArray(response.data.Pins) && response.data.Pins.length > 0) {
-      return response.data.Pins.map((cidStr: string) => CID.parse(cidStr));
+      return response.data.Pins;
     }
 
     return response.data;
@@ -145,7 +144,7 @@ export class InfuraService extends IPFSServiceBase {
    * @param cid - The CID to unpin.
    * @returns A Promise resolving to a confirmation string.
    */
-  async unpin(cid: CID): Promise<string> {
+  async unpin(cid: string): Promise<string> {
     const response = await axios.post(
       `${this._config.baseUrl}/api/v0/pin/rm?arg=${cid.toString()}`,
       null,

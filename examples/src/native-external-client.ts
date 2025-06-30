@@ -1,11 +1,11 @@
-import { AccountId, Client, ContractId, PrivateKey } from "@hashgraph/sdk";
 import {
   CONTRACT_DEPLOYMENTS,
-  createAdapter,
-  getChain,
   MJClient,
   NativeAdapter,
+  createAdapter,
+  getChain,
 } from "@buidlerlabs/memejob-sdk-js";
+import { AccountId, Client, ContractId, PrivateKey } from "@hashgraph/sdk";
 
 import "dotenv/config";
 

@@ -42,13 +42,16 @@ Setup a new memejob client
 ```typescript [@hashgraph/sdk]
 import { AccountId, ContractId, PrivateKey } from "@hashgraph/sdk";
 import {
+  CONTRACT_DEPLOYMENTS,
   createAdapter,
   getChain,
   MJClient,
   NativeAdapter,
 } from "@buidlerlabs/memejob-sdk-js";
 
-const contractId = ContractId.fromString("0.0.123456");
+const contractId = ContractId.fromString(
+  CONTRACT_DEPLOYMENTS.mainnet.contractId
+);
 
 const client = new MJClient(
   createAdapter(NativeAdapter, {

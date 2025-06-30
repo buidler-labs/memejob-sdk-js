@@ -50,11 +50,16 @@ interface CreateOptions {
 ```typescript
 import { AccountId, ContractId, PrivateKey } from "@hashgraph/sdk";
 import {
+  CONTRACT_DEPLOYMENTS,
   createAdapter,
   getChain,
   MJClient,
   NativeAdapter,
 } from "@buidlerlabs/memejob-sdk-js";
+
+const contractId = ContractId.fromString(
+  CONTRACT_DEPLOYMENTS.mainnet.contractId
+);
 
 // Initialize the client
 const client = new MJClient(
@@ -65,8 +70,8 @@ const client = new MJClient(
     },
   }),
   {
-    chain: getChain("testnet"),
-    contractId: ContractId.fromString("0.0.123456"),
+    chain: getChain("mainnet"),
+    contractId,
   }
 );
 

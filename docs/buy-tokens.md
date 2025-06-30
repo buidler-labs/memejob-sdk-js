@@ -29,11 +29,18 @@ interface BuyParameters {
 import { ContractId } from "@hashgraph/sdk";
 import { privateKeyToAccount } from "viem/accounts";
 import {
+  CONTRACT_DEPLOYMENTS,
   createAdapter,
   EvmAdapter,
   getChain,
   MJClient,
 } from "@buidlerlabs/memejob-sdk-js";
+
+const contractId = ContractId.fromEvmAddress(
+  0,
+  0,
+  CONTRACT_DEPLOYMENTS.mainnet.evmAddress
+);
 
 // Initialize client
 const client = new MJClient(
@@ -41,8 +48,8 @@ const client = new MJClient(
     account: privateKeyToAccount("0x123..."),
   }),
   {
-    chain: getChain("testnet"),
-    contractId: ContractId.fromEvmAddress(0, 0, "0x123..."),
+    chain: getChain("mainnet"),
+    contractId,
   }
 );
 
@@ -52,7 +59,7 @@ const token = await client.getToken("0.0.5622410");
 // Buy 1_000_000 tokens with referrer
 const receipt = await token.buy({
   amount: 100000000000000n,
-  referrer: "0.0.789012",
+  referrer: "0x000...000",
 });
 ```
 

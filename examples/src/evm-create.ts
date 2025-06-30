@@ -1,15 +1,15 @@
+import {
+  CONTRACT_DEPLOYMENTS,
+  EvmAdapter,
+  MJClient,
+  MJMemoBuilder,
+  PinataService,
+  createAdapter,
+  getChain,
+} from "@buidlerlabs/memejob-sdk-js";
 import { ContractId } from "@hashgraph/sdk";
 import { privateKeyToAccount } from "viem/accounts";
 import { readImageAsBlob } from "./utils/fs-utils";
-import {
-  createAdapter,
-  EvmAdapter,
-  getChain,
-  MJClient,
-  CONTRACT_DEPLOYMENTS,
-  MJMemoBuilder,
-  PinataService,
-} from "@buidlerlabs/memejob-sdk-js";
 
 import "dotenv/config";
 

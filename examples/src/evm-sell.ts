@@ -1,12 +1,12 @@
+import {
+  CONTRACT_DEPLOYMENTS,
+  EvmAdapter,
+  MJClient,
+  createAdapter,
+  getChain,
+} from "@buidlerlabs/memejob-sdk-js";
 import { ContractId } from "@hashgraph/sdk";
 import { privateKeyToAccount } from "viem/accounts";
-import {
-  createAdapter,
-  EvmAdapter,
-  getChain,
-  MJClient,
-  CONTRACT_DEPLOYMENTS,
-} from "@buidlerlabs/memejob-sdk-js";
 
 import "dotenv/config";
 

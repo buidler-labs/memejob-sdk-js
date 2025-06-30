@@ -24,5 +24,5 @@ export const chainToNetworkName = (chain: Chain) => {
   return {
     [mainnet.id]: "mainnet",
     [testnet.id]: "testnet",
-  }[chain.id];
+  }[chain.id] as keyof typeof SUPPORTED_CHAINS;
 };

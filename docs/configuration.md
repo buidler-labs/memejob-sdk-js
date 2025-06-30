@@ -29,13 +29,16 @@ The SDK has two built-in types of network adapters
 ```typescript
 import { AccountId, ContractId, PrivateKey } from "@hashgraph/sdk";
 import {
+  CONTRACT_DEPLOYMENTS,
   createAdapter,
   getChain,
   MJClient,
   NativeAdapter,
 } from "@buidlerlabs/memejob-sdk-js";
 
-const contractId = ContractId.fromString("0.0.123456");
+const contractId = ContractId.fromString(
+  CONTRACT_DEPLOYMENTS.mainnet.contractId
+);
 
 const client = new MJClient(
   createAdapter(NativeAdapter, {
@@ -57,13 +60,18 @@ const client = new MJClient(
 import { ContractId } from "@hashgraph/sdk";
 import { privateKeyToAccount } from "viem/accounts";
 import {
+  CONTRACT_DEPLOYMENTS,
   createAdapter,
   EvmAdapter,
   getChain,
   MJClient,
 } from "@buidlerlabs/memejob-sdk-js";
 
-const contractId = ContractId.fromEvmAddress(0, 0, "0x123..456");
+const contractId = ContractId.fromEvmAddress(
+  0,
+  0,
+  CONTRACT_DEPLOYMENTS.mainnet.evmAddress
+);
 
 const client = new MJClient(
   createAdapter(EvmAdapter, {

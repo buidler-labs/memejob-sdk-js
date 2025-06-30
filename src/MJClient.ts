@@ -1,7 +1,7 @@
 import { type ContractId, TokenId } from "@hashgraph/sdk";
 import type { Chain } from "viem";
 import { MJToken, MJ_TOKEN_CONSTRUCTOR_GUARD } from "./MJToken";
-import { MJAdapter, type CreateAdapterFunc } from "./adapters";
+import { type CreateAdapterFunc, MJAdapter } from "./adapters";
 import { ZERO_ADDRESS } from "./config";
 import { type MirrorClientConfig, createMirrorConfig } from "./mirror";
 import type {

@@ -19,7 +19,7 @@ import type {
   CreateFunctionParameters,
   SellFunctionParameters,
 } from "../../types";
-import { withRetry, isNativeAddress } from "../../utils";
+import { isNativeAddress, withRetry } from "../../utils";
 import { MJAdapter, type MJAdapterParameters } from "../MJAdapter";
 
 /** Configuration parameters for NativeAdapter initialization */

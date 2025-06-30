@@ -1,3 +1,4 @@
+import { File } from "@web-std/file";
 import axios from "axios";
 import { IPFSServiceBase } from "../IPFSServiceBase";
 import type {
@@ -5,7 +6,6 @@ import type {
   PinataInitOptions,
   PinataPinOptions,
 } from "./types";
-import { File } from "@web-std/file";
 
 export type ServiceConfig = {
   apiUrl: string;

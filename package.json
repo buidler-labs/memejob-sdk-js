@@ -1,6 +1,6 @@
 {
   "name": "@buidlerlabs/memejob-sdk-js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "The official memejob.fun development kit",
   "private": false,
   "homepage": "https://memejob.fun",
@@ -24,7 +24,7 @@
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
     "format": "biome format --write",
-    "postinstall": "node ./scripts/generate-api-schema.mjs",
+    "generate:types": "node ./scripts/generate-api-schema.mjs",
     "test": "vitest"
   },
   "keywords": [
@@ -39,10 +39,7 @@
   "author": "Buidlerlabs",
   "license": "MIT",
   "packageManager": "pnpm@10.4.1",
-  "files": [
-    "/dist",
-    "/scripts"
-  ],
+  "files": ["/dist", "/scripts"],
   "exports": {
     ".": {
       "import": "./dist/index.mjs",

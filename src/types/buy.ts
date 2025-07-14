@@ -1,11 +1,19 @@
 import type { Address } from "viem";
+import type { AdapterActionReturnType } from "./adapter";
 
-export type BuyFunctionParameters = {
+export type MJBuyFunctionParameters = {
   memeAddress: Address;
   amount: bigint;
   referrer?: `0x${string}`;
 };
 
-export type BuyConfig = Pick<BuyFunctionParameters, "amount" | "referrer"> & {
+export type MJBuyConfig = Pick<
+  MJBuyFunctionParameters,
+  "amount" | "referrer"
+> & {
   autoAssociate?: boolean;
 };
+
+export type MJBuyResult = {
+  amount: bigint;
+} & AdapterActionReturnType;

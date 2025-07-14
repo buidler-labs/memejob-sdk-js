@@ -1,6 +1,6 @@
 {
   "name": "@buidlerlabs/memejob-sdk-js",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "The official memejob.fun development kit",
   "private": false,
   "homepage": "https://memejob.fun",

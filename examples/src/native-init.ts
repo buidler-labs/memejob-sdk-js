@@ -42,7 +42,9 @@ import "dotenv/config";
     );
 
     // Retrieve a MJToken wrapper for the specified TokenId
-    const token = await client.getToken(process.env.MJ_TOKEN_ID);
+    const token = await client.getToken(
+      process.env.MJ_TOKEN_ID as `0.0.${number}`
+    );
     console.log(token);
     process.exit(0);
   } catch (error) {

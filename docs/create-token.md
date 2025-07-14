@@ -10,19 +10,19 @@ Creates a new token on the memejob platform.
 
 ```typescript
 async createToken(
-  params: CreateTokenParameters,
-  options?: CreateOptions
-): Promise<TransactionReceipt>
+  params: MJCreateTokenParameters,
+  options?: MJCreateOptions
+): Promise<MJToken>
 ```
 
 #### Arguments
 
 <br/>
 
-##### `params: CreateTokenParameters`
+##### `params: MJCreateTokenParameters`
 
 ```typescript
-interface CreateTokenParameters {
+interface MJCreateTokenParameters {
   /** Token name */
   name: string;
   /** Token symbol */
@@ -32,10 +32,10 @@ interface CreateTokenParameters {
 }
 ```
 
-##### `options?: CreateOptions`
+##### `options?: MJCreateOptions`
 
 ```typescript
-interface CreateOptions {
+interface MJCreateOptions {
   /** Referrer address for rewards */
   referrer?: string;
   /** Token amount to buy on creation*/
@@ -88,6 +88,37 @@ const token = await client.createToken(tokenInfo, {
   referrer: "0x000...000",
 });
 ```
+
+When [`operationalMode`](http://localhost:5173/memejob-sdk-js/configuration.html#operational-mode-configuration) is set to `returnBytes`, the final result will be the transaction’s byte array
+
+```typescript
+
+const client = new MJClient(
+  createAdapter(NativeAdapter, {
+    operator: {
+      accountId: AccountId.fromString("0.0.123456"),
+      privateKey: PrivateKey.fromStringECDSA("<private-key>"),
+    },
+    operationalMode: "returnBytes"
+  }),
+  {
+    chain: getChain("mainnet"),
+    contractId
+  }
+);
+
+...
+
+const transactionBytes = await client.createToken(tokenInfo, {
+  amount: 100000000000n,
+  distributeRewards: true,
+  referrer: "0x000...000",
+}); // <Buffer 0a 85 01 1a ... and more bytes>
+```
+
+::: warning
+The [`operationalMode`](http://localhost:5173/memejob-sdk-js/configuration.html#operational-mode-configuration) config is supported only by the `NativeAdapter`.
+:::
 
 ## Best Practices
 

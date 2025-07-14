@@ -40,11 +40,12 @@ export const get = async <
 ): Promise<R> => {
   const { client, path, transform, options, retryOptions } = parameters;
 
-  const { data, error } = await withRetry(() => {
-    return client.GET(path, options as any);
-  }, retryOptions);
+  const data = await withRetry(async () => {
+    const { data, error } = await client.GET(path, options as any);
+    if (error) throw new MirrorNodeError(error);
 
-  if (error) throw new MirrorNodeError(error);
+    return data;
+  }, retryOptions);
 
   return typeof transform === "function" ? transform(data as D) : (data as R);
 };

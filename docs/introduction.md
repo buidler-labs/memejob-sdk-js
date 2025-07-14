@@ -6,7 +6,7 @@ Welcome to the official [memejob](https://memejob.fun) SDK documentation! This p
 
 The SDK is designed to simplify the integration of [memejob](https://memejob.fun) functionality into your applications. It provides a comprehensive set of tools for:
 
-- Creating and managing tokens
+- Creating tokens and portfolio managing
 - Executing buy and sell operations
 - Managing allowances
 - Managing token associations

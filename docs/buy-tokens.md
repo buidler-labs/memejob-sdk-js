@@ -9,17 +9,32 @@ This guide explains how to buy tokens using the memejob SDK.
 Buys tokens from the memejob protocol.
 
 ```typescript
-async buy(params: BuyParameters): Promise<TransactionReceipt>
+async buy(params: MJBuyConfig): Promise<MJBuyResult>
 ```
 
 #### Arguments
 
 ```typescript
-interface BuyParameters {
+interface MJBuyConfig {
   /** Amount of tokens to buy (in smallest unit) */
   amount: bigint;
   /** Optional referrer address for rewards */
   referrer?: string;
+  /** Optional auto associate flag */
+  autoAssociate?: boolean;
+}
+```
+
+#### ReturnType
+
+```typescript
+interface MJBuyResult {
+  /** Status of the transaction receipt */
+  status: string;
+  /** Hedera transaction id for NativeAdapter and Hash for EVMAdapter  */
+  transactionIdOrHash: string;
+  /** Amount of tokens bought (in smallest unit) */
+  amount: bigint;
 }
 ```
 
@@ -57,11 +72,43 @@ const client = new MJClient(
 const token = await client.getToken("0.0.5622410");
 
 // Buy 1_000_000 tokens with referrer
-const receipt = await token.buy({
+const result = await token.buy({
   amount: 100000000000000n,
   referrer: "0x000...000",
 });
 ```
+
+When [`operationalMode`](http://localhost:5173/memejob-sdk-js/configuration.html#operational-mode-configuration) is set to `returnBytes`, the final result will be the transaction’s byte array:
+
+```typescript
+
+const client = new MJClient(
+ createAdapter(NativeAdapter, {
+    operator: {
+      accountId: AccountId.fromString("0.0.123456"),
+      privateKey: PrivateKey.fromStringECDSA("<private-key>"),
+    },
+    operationalMode: "returnBytes"
+  }),
+  {
+    chain: getChain("mainnet"),
+    contractId
+  }
+);
+
+...
+
+const token = await client.getToken("0.0.5622410");
+
+const transactionBytes = await token.buy({
+  amount: 100000000000000n,
+  referrer: "0x000...000",
+}); // <Buffer 0a 85 01 1a ... and more bytes>
+```
+
+::: warning
+The [`operationalMode`](http://localhost:5173/memejob-sdk-js/configuration.html#operational-mode-configuration) config is supported only by the `NativeAdapter`.
+:::
 
 ## Best Practices
 
@@ -76,7 +123,7 @@ const receipt = await token.buy({
 try {
   const token = await client.getToken("0.0.5622410");
 
-  const receipt = await token.buy({
+  const result = await token.buy({
     amount: 100000000000000n,
   });
 } catch (error) {

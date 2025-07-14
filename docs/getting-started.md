@@ -107,13 +107,13 @@ const client = new MJClient( // [!code focus]
 Here’s a simple example of how you can create a new MemeJob token by calling the client’s `createToken` method with the required parameters.
 
 ```typescript
-const receipt = await client.createToken({
+const token = await client.createToken({
   name: "My awesome token",
   symbol: "MAT",
   memo: "ipfs://1q2w...3e4r",
 });
 
-console.log("Transaction receipt:", receipt);
+console.log("MJToken instance:", token);
 ```
 
 ## Next Steps

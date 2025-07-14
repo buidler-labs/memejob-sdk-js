@@ -42,13 +42,15 @@ import "dotenv/config";
       }
     );
 
-    const token = await client.getToken(process.env.MJ_TOKEN_ID);
+    const token = await client.getToken(
+      process.env.MJ_TOKEN_ID as `0.0.${number}`
+    );
 
-    const receipt = await token.buy({
+    const result = await token.buy({
       amount: 1000000000n,
     });
 
-    console.log({ receipt });
+    console.log({ result });
     process.exit(0);
   } catch (error) {
     console.error("Failed run native:external-client task", error);

@@ -1,6 +1,6 @@
 {
   "name": "@buidlerlabs/memejob-sdk-examples",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Usage examples of @buidlerlabs/memejob-sdk-js",
   "scripts": {
     "evm:associate": "ts-node ./src/evm-associate",
@@ -10,6 +10,7 @@
     "evm:sell": "ts-node ./src/evm-sell",
     "native:associate": "ts-node ./src/native-associate",
     "native:buy": "ts-node ./src/native-buy",
+    "native:buy-return-bytes": "ts-node ./src/native-buy-return-bytes",
     "native:create": "ts-node ./src/native-create",
     "native:external-client": "ts-node ./src/native-external-client",
     "native:init": "ts-node ./src/native-init",
@@ -21,7 +22,7 @@
   "license": "ISC",
   "packageManager": "pnpm@10.4.1",
   "dependencies": {
-    "@buidlerlabs/memejob-sdk-js": "^0.0.2",
+    "@buidlerlabs/memejob-sdk-js": "^0.1.0",
     "@hashgraph/sdk": "^2.66.0",
     "dotenv": "^16.5.0",
     "viem": "^2.31.3"

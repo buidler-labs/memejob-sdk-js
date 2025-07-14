@@ -42,11 +42,12 @@ export const getPaginated = async <
   const results: R[] = [];
 
   while (true) {
-    const { data, error } = await withRetry(() => {
-      return client.GET(path, fetchOptions as any);
-    }, retryOptions);
+    const data = await withRetry(async () => {
+      const { data, error } = await client.GET(path, fetchOptions as any);
+      if (error) throw new MirrorNodeError(error);
 
-    if (error) throw new MirrorNodeError(error);
+      return data;
+    }, retryOptions);
 
     results.push(typeof transform === "function" ? transform(data) : data);
 

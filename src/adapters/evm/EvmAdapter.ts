@@ -15,9 +15,17 @@ import {
   memejobABI,
 } from "../../abi";
 import type {
-  BuyFunctionParameters,
+  ApproveAllowanceTokens,
+  AssociateTokensList,
   CreateFunctionParameters,
-  SellFunctionParameters,
+  MJAdapterReturnType,
+  MJApproveAllowanceResult,
+  MJAssociateTokensResult,
+  MJBuyFunctionParameters,
+  MJBuyResult,
+  MJSellFunctionParameters,
+  MJSellResult,
+  OperationalMode,
 } from "../../types";
 import { isEvmAddress, toEvmAddress } from "../../utils";
 import { MJAdapter, type MJAdapterParameters } from "../MJAdapter";
@@ -42,14 +50,14 @@ type WithProvider = {
 };
 
 /** Parameters for initializing `EvmAdapter` with either account or provider */
-export type EVMAdapterParameters = MJAdapterParameters &
-  (WithAccount | WithProvider);
+export type EVMAdapterParameters<Mode extends OperationalMode> =
+  MJAdapterParameters<Mode> & (WithAccount | WithProvider);
 
 /**
  * EVM-compatible adapter for interacting with memejob contracts.
  * Supports both private key accounts and external wallet providers.
  */
-export class EvmAdapter extends MJAdapter {
+export class EvmAdapter<Mode extends OperationalMode> extends MJAdapter<Mode> {
   #account!: PrivateKeyAccount | undefined;
   #walletClient: WalletClient;
 
@@ -66,7 +74,7 @@ export class EvmAdapter extends MJAdapter {
       contractId,
       ethereumProvider,
       ...rest
-    }: EVMAdapterParameters
+    }: EVMAdapterParameters<Mode>
   ) {
     if (!isEvmAddress(contractId)) {
       throw new Error(
@@ -75,6 +83,13 @@ export class EvmAdapter extends MJAdapter {
     }
 
     super(constructorGuard, { contractId, chain, ...rest });
+
+    if (this.operationalMode === "returnBytes") {
+      throw new Error(
+        "Return bytes mode is not supported for EVM interactions."
+      );
+    }
+
     this.#account = account;
 
     this.#walletClient = createWalletClient({
@@ -85,11 +100,20 @@ export class EvmAdapter extends MJAdapter {
   }
 
   /**
-   * Creates a new token on memejob.
-   * @param params - Token creation parameters including token info and creation config
-   * @returns Promise resolving to transaction receipt
+   * Creates a new meme token on the network.
+   *
+   * This method creates a new token and registers it with the memejob
+   * bonding curve system. The token will be immediately available for trading.
+   *
+   * @param params - Token creation parameters including metadata and configuration
+   * @param params.name - The name of the token (e.g., "My Meme Token")
+   * @param params.symbol - The token symbol (e.g., "MMT")
+   * @param params.memo - The IPFS path pointing to token metadata
+   * @returns Promise resolving to transaction bytes or tokenId as string based on operational mode
    */
-  async create(params: CreateFunctionParameters) {
+  async create<R extends MJAdapterReturnType<Mode, `0.0.${number}`>>(
+    params: CreateFunctionParameters
+  ): Promise<R> {
     const creationFee = await this.getCreationFee();
     const initialBuyAmount = params?.amount ?? 0n;
     const value = (creationFee + initialBuyAmount) * 10n ** 10n; // converted to wei
@@ -112,17 +136,28 @@ export class EvmAdapter extends MJAdapter {
       gas: 400_000n,
     });
 
-    return await waitForTransactionReceipt(this.#walletClient, {
+    await waitForTransactionReceipt(this.#walletClient, {
       hash,
     });
+
+    return (await this.getTokenIdOnCreate(hash)) as R;
   }
 
   /**
    * Purchases tokens from the bonding curve.
-   * @param params - Buy parameters including token `memeAddress`, `amount`, and `referrer`
-   * @returns Promise resolving to transaction receipt
+   *
+   * Executes a buy transaction on the bonding curve. The price is determined
+   * by the current position on the curve.
+   *
+   * @param params - Buy parameters
+   * @param params.memeAddress - Address of the token to purchase
+   * @param params.amount - Amount of tokens to buy (in tiny/smallest unit)
+   * @param params.referrer - Optional referrer address for referral rewards
+   * @returns Promise resolving to transaction bytes or MJBuyResult based on operational mode
    */
-  async buy(params: BuyFunctionParameters) {
+  async buy<R extends MJAdapterReturnType<Mode, MJBuyResult>>(
+    params: MJBuyFunctionParameters
+  ): Promise<R> {
     const amountOut = await this.getAmountOut(
       params.memeAddress,
       params.amount
@@ -139,17 +174,31 @@ export class EvmAdapter extends MJAdapter {
       gas: 200_000n,
     });
 
-    return await waitForTransactionReceipt(this.#walletClient, {
+    const receipt = await waitForTransactionReceipt(this.#walletClient, {
       hash,
     });
+
+    return {
+      transactionIdOrHash: hash,
+      status: receipt.status,
+      amount: params.amount,
+    } satisfies MJBuyResult as R;
   }
 
   /**
    * Sells tokens back to the bonding curve.
-   * @param params - Sell parameters including token `memeAddress` and `amount`
-   * @returns Promise resolving to transaction receipt
+   *
+   * Executes a sell transaction on the bonding curve. The sell price is determined by the
+   * current position on the curve.
+   *
+   * @param params - Sell parameters
+   * @param params.tokenAddress - Address of the token to sell
+   * @param params.amount - Amount of tokens to sell (in tiny/smallest unit)
+   * @returns Promise resolving to transaction bytes or MJSellResult based on operational mode
    */
-  async sell(params: SellFunctionParameters) {
+  async sell<R extends MJAdapterReturnType<Mode, MJSellResult>>(
+    params: MJSellFunctionParameters
+  ): Promise<R> {
     const hash = await this.#walletClient.writeContract({
       address: toEvmAddress(this.contractId),
       abi: memejobABI,
@@ -160,21 +209,31 @@ export class EvmAdapter extends MJAdapter {
       gas: 200_000n,
     });
 
-    return await waitForTransactionReceipt(this.#walletClient, {
+    const receipt = await waitForTransactionReceipt(this.#walletClient, {
       hash,
     });
+
+    return {
+      transactionIdOrHash: hash,
+      status: receipt.status,
+      amount: params.amount,
+    } satisfies MJSellResult as R;
   }
 
   /**
    * Approves token allowances for contract spending.
+   *
+   * Grants permission to the specified memejob contract to spend tokens on behalf of
+   * the current account. This is required before the contract can transfer
+   * tokens during sell operations.
+   *
    * @param tokens - Array of tokens and amounts to approve
-   * @param spender - Contract address authorized to spend tokens
-   * @returns Promise resolving to array of approval transaction receipts
+   * @param spender - ContractId authorized to spend the tokens
+   * @returns Promise resolving to transaction bytes or MJApproveAllowanceResult based on operational mode
    */
-  async approveAllowance(
-    tokens: { tokenId: TokenId | string; amount: bigint }[],
-    spender: ContractId
-  ) {
+  async approveAllowance<
+    R extends MJAdapterReturnType<Mode, MJApproveAllowanceResult>,
+  >(tokens: ApproveAllowanceTokens, spender: ContractId): Promise<R[]> {
     return Promise.all(
       tokens.map(async ({ tokenId, amount }) => {
         tokenId =
@@ -191,19 +250,32 @@ export class EvmAdapter extends MJAdapter {
           gas: 750_000n,
         });
 
-        return await waitForTransactionReceipt(this.#walletClient, {
+        const receipt = await waitForTransactionReceipt(this.#walletClient, {
           hash,
         });
+
+        return {
+          transactionIdOrHash: hash,
+          status: receipt.status,
+          tokens,
+          spender,
+        } satisfies MJApproveAllowanceResult as R;
       })
     );
   }
 
   /**
    * Associates one or more tokens with the current account.
-   * @param tokens - Array of tokens to associate
-   * @returns Promise resolving to array of transaction receipts
+   *
+   * On Hedera, accounts must be associated with tokens before they can
+   * receive or hold them. This method performs the association transaction.
+   *
+   * @param tokens - Array of token identifiers to associate with the account
+   * @returns Promise resolving to transaction bytes or MJAssociateTokensResult based on operational mode
    */
-  async associateTokens(tokens: (TokenId | string)[]) {
+  async associateTokens<
+    R extends MJAdapterReturnType<Mode, MJAssociateTokensResult>,
+  >(tokens: AssociateTokensList): Promise<R[]> {
     return Promise.all(
       tokens.map(async (tokenId) => {
         const contractAddress = toEvmAddress(
@@ -219,17 +291,27 @@ export class EvmAdapter extends MJAdapter {
           gas: 750_000n,
         });
 
-        return await waitForTransactionReceipt(this.#walletClient, {
+        const receipt = await waitForTransactionReceipt(this.#walletClient, {
           hash,
         });
+
+        return {
+          transactionIdOrHash: hash,
+          status: receipt.status,
+          tokens,
+        } satisfies MJAssociateTokensResult as R;
       })
     );
   }
 
   /**
    * Retrieves token balance for the current account.
-   * @param token - MJToken to query balance for
-   * @returns Promise resolving to token balance as bigint
+   *
+   * Queries the account's balance for the specified token. The balance
+   * is returned in the token's smallest unit (tiny).
+   *
+   * @param token - MJToken instance to query balance for
+   * @returns Promise resolving to token balance as bigint in smallest unit
    */
   async getBalance(token: MJToken): Promise<bigint> {
     const balance = (await this.publicClient.readContract({

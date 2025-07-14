@@ -34,6 +34,7 @@ import "dotenv/config";
           accountId: AccountId.fromString(process.env.MJ_ACCOUNT!),
           privateKey: PrivateKey.fromStringECDSA(process.env.MJ_PRIVATE_KEY!),
         },
+        operationalMode: "returnBytes",
       }),
       {
         chain: getChain("testnet"),
@@ -47,11 +48,11 @@ import "dotenv/config";
     );
 
     // Perform BUY transaction with specified amount
-    const result = await token.buy({
+    const transactionBytes = await token.buy({
       amount: 1100000000n,
     });
 
-    console.log({ result });
+    console.log({ transactionBytes });
     process.exit(0);
   } catch (error) {
     console.error("Failed run native:buy task", error);

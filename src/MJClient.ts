@@ -6,8 +6,9 @@ import { ZERO_ADDRESS } from "./config";
 import { type MirrorClientConfig, createMirrorConfig } from "./mirror";
 import type {
   CreateFunctionParameters,
-  CreateOptions,
-  CreateTokenParameters,
+  MJCreateOptions,
+  MJCreateReturnType,
+  MJCreateTokenParameters,
 } from "./types";
 import { toEvmAddress } from "./utils";
 
@@ -43,7 +44,13 @@ export class MJClient<Adapter extends MJAdapter = MJAdapter> {
   ) {
     this.#contractId = config?.contractId ?? this.#contractId;
 
-    this.#adapter = createAdapterFunc(this, {
+    this.#mirror = createMirrorConfig({
+      chain: config.chain,
+      baseUrl: config?.mirrorBaseUrl,
+    });
+
+    this.#adapter = createAdapterFunc({
+      mirror: this.#mirror,
       chain: config.chain,
       contractId: this.#contractId,
     });
@@ -51,24 +58,23 @@ export class MJClient<Adapter extends MJAdapter = MJAdapter> {
     if (!(this.#adapter instanceof MJAdapter)) {
       throw new Error("Network adapter not properly configured.");
     }
-
-    this.#mirror = createMirrorConfig({
-      chain: config.chain,
-      baseUrl: config?.mirrorBaseUrl,
-    });
   }
 
   /**
    * Creates a new token on memejob.
    * @param tokenParams - Token creation parameters
    * @param options - Optional creation parameters
-   * @returns Promise resolving to transaction receipt
+   * @returns Promise resolving to a MJToken instance or transaction bytes based on operational mode
    * @throws Error if required token fields are missing
    */
-  async createToken(
-    tokenParams: CreateTokenParameters,
-    options?: CreateOptions
-  ) {
+  async createToken<
+    R extends Adapter extends MJAdapter<infer Mode>
+      ? MJCreateReturnType<Mode, MJToken<this>>
+      : never,
+  >(
+    tokenParams: MJCreateTokenParameters,
+    options?: MJCreateOptions
+  ): Promise<R> {
     if (!tokenParams.name) throw new Error("Token name is required.");
     if (!tokenParams.symbol) throw new Error("Token symbol is required.");
     if (!tokenParams.memo) throw new Error("Token memo is required.");
@@ -82,7 +88,16 @@ export class MJClient<Adapter extends MJAdapter = MJAdapter> {
       distributeRewards: options?.distributeRewards || true,
     };
 
-    return await this.#adapter.create(params);
+    const tokenIdOrTransactionBytes = await this.#adapter.create(params);
+
+    if (this.#adapter.operationalMode === "returnBytes") {
+      return tokenIdOrTransactionBytes as R;
+    }
+
+    return new MJToken(MJ_TOKEN_CONSTRUCTOR_GUARD, {
+      client: this,
+      token_id: tokenIdOrTransactionBytes as `0.0.${number}`,
+    }) as R;
   }
 
   /**
@@ -91,7 +106,7 @@ export class MJClient<Adapter extends MJAdapter = MJAdapter> {
    * @returns Promise that resolves to an MJToken instance.
    * @throws Error if the specified token is not present on the bonding curve.
    */
-  async getToken(tokenId: TokenId | string): Promise<MJToken> {
+  async getToken(tokenId: TokenId | `0.0.${number}`): Promise<MJToken<this>> {
     const isMJToken = await this.#adapter.checkTokenExistence(
       toEvmAddress(
         typeof tokenId === "string" ? TokenId.fromString(tokenId) : tokenId

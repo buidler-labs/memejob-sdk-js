@@ -101,10 +101,12 @@ const testnetChain = getChain("testnet");
 By default, a chain’s configuration uses [`hashio`](https://www.hashgraph.com/hashio/) as its JSON-RPC relay. However, you can customize this by specifying a custom `rpcURL` when using the `getChain` utility function.
 
 ```typescript
-const testnet = getChain("testnet", {
-  rpcUrl: "https://pool.arkhia.io/hedera/testnet/json-rpc/v1",
+const testnet = getChain("mainnet", {
+  rpcUrl: "https://mainnet.hedera.api.hgraph.dev/v1/<API-KEY>/api/v1",
 });
 ```
+
+You can find additional `JSON-RPC` relays hosted by members of the community by visiting the following [page](https://docs.hedera.com/hedera/core-concepts/smart-contracts/json-rpc-relay#community-hosted-json-rpc-relays).
 
 ## Mirror Node Configuration
 
@@ -122,6 +124,38 @@ const client = new MJClient(
     chain: getChain("mainnet"),
     contractId,
     mirrorBaseUrl: "https://mainnet.hedera.validationcloud.io/v1/<api-key>",
+  }
+);
+```
+
+## Operational Mode Configuration
+
+::: warning
+The `operationalMode` config is supported only by the `NativeAdapter`.
+:::
+
+The `operationalMode` configuration allows developers to choose between two modes:
+
+- Execute the transaction directly when a `hederaClient` or an [`operator`](http://localhost:5173/memejob-sdk-js/configuration.html#native-using-hashgraph-sdk) is provided.
+- Build the transaction and retrieve its byte representation, which can then be sent to a wallet for signing and execution.
+
+#### Configurable modes:
+
+- `returnResult` _(default)_ - Returns the transaction result based on the actual adapter.
+- `returnBytes` - Returns the transaction bytes array.
+
+```typescript
+const client = new MJClient(
+  createAdapter(NativeAdapter, {
+    operator: {
+      accountId: AccountId.fromString("0.0.123456"),
+      privateKey: PrivateKey.fromStringED25519("<private-key>"),
+    },
+    operationalMode: "returnBytes",
+  }),
+  {
+    chain: getChain("mainnet"),
+    contractId
   }
 );
 ```

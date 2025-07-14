@@ -36,15 +36,17 @@ import "dotenv/config";
     );
 
     // Retrieve a MJToken wrapper for the specified TokenId
-    const token = await client.getToken(process.env.MJ_TOKEN_ID);
+    const token = await client.getToken(
+      process.env.MJ_TOKEN_ID as `0.0.${number}`
+    );
 
     // Perform SELL transaction with specified amount
-    const receipt = await token.sell({
+    const result = await token.sell({
       amount: 1000000000n,
       instant: true,
     });
 
-    console.log({ receipt });
+    console.log({ result });
     process.exit(0);
   } catch (error) {
     console.error("Failed run evm:sell task", error);

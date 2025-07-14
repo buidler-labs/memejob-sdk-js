@@ -1,10 +1,15 @@
 import type { Address } from "viem";
+import type { AdapterActionReturnType } from ".";
 
-export type SellFunctionParameters = {
+export type MJSellFunctionParameters = {
   memeAddress: Address;
   amount: bigint;
 };
 
-export type SellConfig = Pick<SellFunctionParameters, "amount"> & {
+export type MJSellConfig = Pick<MJSellFunctionParameters, "amount"> & {
   instant?: boolean;
 };
+
+export type MJSellResult = {
+  amount: bigint;
+} & AdapterActionReturnType;

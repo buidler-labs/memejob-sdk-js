@@ -42,12 +42,14 @@ import "dotenv/config";
     );
 
     // Retrieve a MJToken wrapper for the specified TokenId
-    const token = await client.getToken(process.env.MJ_TOKEN_ID);
+    const token = await client.getToken(
+      process.env.MJ_TOKEN_ID as `0.0.${number}`
+    );
 
     // Perform "associate" transaction on the actual account
-    const receipt = await token.associate();
+    const result = await token.associate();
 
-    console.log({ receipt });
+    console.log({ result });
     process.exit(0);
   } catch (error) {
     console.error("Failed run native:associate task", error);

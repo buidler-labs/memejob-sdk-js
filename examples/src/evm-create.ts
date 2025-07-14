@@ -60,12 +60,12 @@ import "dotenv/config";
     });
 
     // Performs CREATE transaction to deploy a new token
-    const receipt = await client.createToken(
+    const token = await client.createToken(
       { name: "test", symbol: "TST", memo },
       { distributeRewards: false }
     );
 
-    console.log({ receipt });
+    console.log({ token });
     process.exit(0);
   } catch (error) {
     console.error("Failed run evm:create task", error);

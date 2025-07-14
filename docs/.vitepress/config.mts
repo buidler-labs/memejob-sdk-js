@@ -2,6 +2,7 @@ import { defineConfig } from "vitepress";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  head: [['link', { rel: 'icon', href: '/memejob-sdk-js/favicon.ico' }]],
   title: "memejob-sdk-js",
   description: "Official memejob development kit",
   themeConfig: {
@@ -18,6 +19,7 @@ export default defineConfig({
           { text: "About", link: "/introduction" },
           { text: "Getting started", link: "/getting-started" },
           { text: "Configuration", link: "/configuration" },
+          { text: "Contract deployments", link: "/contract-deployments" },
         ],
       },
       {
